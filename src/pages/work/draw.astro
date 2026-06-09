@@ -268,17 +268,42 @@ import Footer from '../../components/Footer.astro';
     </div>
 
     <!-- ── Slide 9: 4 digital wireframe screens ──────────── -->
-    <picture class="slide-screenshot-wrap">
-      <source
-        media="(max-width: 768px)"
-        srcset="/images/draw/mobile/slide-09.png"
-      />
+    <div class="slide slide--s9">
+      <!-- Mobile composite (shown ≤768px, hidden on desktop) -->
       <img
-        src="/images/draw/slide-09.png"
-        alt="Four digital wireframe screens displayed side by side"
+        class="s9-mobile"
+        src="/images/draw/mobile/slide-09.png"
+        alt="Four digital wireframe screens"
         loading="lazy"
       />
-    </picture>
+      <!-- Desktop: individual wireframe images in a row -->
+      <div class="s9-row">
+        <img
+          src="/images/draw/s9-wire-1.png"
+          alt="Dashboard wireframe screen"
+          loading="lazy"
+          class="s9-img"
+        />
+        <img
+          src="/images/draw/s9-wire-2.png"
+          alt="Practice selection wireframe screen"
+          loading="lazy"
+          class="s9-img"
+        />
+        <img
+          src="/images/draw/s9-wire-3.png"
+          alt="Lesson detail wireframe screen"
+          loading="lazy"
+          class="s9-img"
+        />
+        <img
+          src="/images/draw/s9-wire-4.png"
+          alt="Routine setup wireframe screen"
+          loading="lazy"
+          class="s9-img"
+        />
+      </div>
+    </div>
 
     <!-- ── Slide 10: Giving Draw a personality ───────────── -->
     <picture class="slide-screenshot-wrap">
@@ -567,6 +592,39 @@ import Footer from '../../components/Footer.astro';
     display: none;
   }
 
+  /* ── Slide 9: 4 digital wireframe screens row ─────────── */
+  /*   Matches Figma: flex row at left:52 top:106, gap:52     */
+  /*   Each image: 275×597px                                  */
+  .slide--s9 {
+    display: block;
+    position: relative;
+    height: 765px;
+    min-height: unset;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .s9-mobile {
+    display: none;
+  }
+
+  .s9-row {
+    position: absolute;
+    top: 106px;
+    left: 52px;
+    display: flex;
+    flex-direction: row;
+    gap: 52px;
+  }
+
+  .s9-img {
+    width: 275px;
+    height: 597px;
+    object-fit: cover;
+    display: block;
+    flex: none;
+  }
+
   /* ── Slide 1 hero typography ─────────────────────────── */
   .s-pretitle {
     font-family: 'League Spartan', sans-serif;
@@ -774,6 +832,22 @@ import Footer from '../../components/Footer.astro';
     /* Hide the composite fallback — we use individual images */
     .s8-mobile {
       display: none;
+    }
+
+    /* Slide 9: show mobile composite, hide desktop row */
+    .slide--s9 {
+      height: auto;
+      position: static;
+      overflow: visible;
+      padding: 0 16px;
+    }
+    .s9-row {
+      display: none;
+    }
+    .s9-mobile {
+      display: block;
+      width: 100%;
+      height: auto;
     }
 
     /* Picture-wrapped screenshots */
