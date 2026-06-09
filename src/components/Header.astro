@@ -1,0 +1,136 @@
+---
+const navLinks = [
+  { label: 'work', href: '/work' },
+  { label: 'about', href: '/about' },
+  { label: 'contact', href: '/work#contact' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="header">
+  <!-- CC logo mark (two circles) centered at top -->
+  <div class="header__logo-mark">
+    <img
+      src="/images/cc-logo-header.png"
+      alt="Cecilia Ceballos logo"
+      width="146"
+      height="73"
+    />
+  </div>
+
+  <!-- Nav bar: wordmark left · nav links right -->
+  <nav class="header__nav" aria-label="Main navigation">
+    <a href="/" class="header__wordmark" aria-label="Cecilia Ceballos — home">
+      cecilia ceballos
+    </a>
+    <ul class="header__links" role="list">
+      {
+        navLinks.map(({ label, href }) => (
+          <li>
+            <a
+              href={href}
+              class:list={[
+                'header__link',
+                { 'header__link--active': currentPath === href },
+              ]}
+            >
+              {label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 0 0;
+    background: #fff;
+  }
+
+  /* CC circles logo — centered above the nav bar */
+  .header__logo-mark {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .header__logo-mark img {
+    width: 73px;
+    height: auto;
+  }
+
+  /* Full-width nav bar */
+  .header__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 52px;
+  }
+
+  /* Wordmark — "cecilia ceballos" */
+  .header__wordmark {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: lowercase;
+    color: #000;
+    white-space: nowrap;
+  }
+
+  /* Nav links list */
+  .header__links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .header__link {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0.15em;
+    color: #000;
+    transition: opacity 0.2s ease;
+  }
+
+  .header__link:hover,
+  .header__link--active {
+    opacity: 0.5;
+  }
+
+  /* ── Mobile ──────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .header {
+      padding: 24px 0 0;
+    }
+
+    .header__logo-mark img {
+      width: 56px;
+    }
+
+    .header__nav {
+      padding: 0 24px;
+    }
+
+    .header__wordmark {
+      font-size: 11px;
+    }
+
+    .header__links {
+      gap: 20px;
+    }
+
+    .header__link {
+      font-size: 14px;
+    }
+  }
+</style>

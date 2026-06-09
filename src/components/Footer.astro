@@ -1,0 +1,126 @@
+---
+
+---
+
+<footer class="footer">
+  <div class="footer__inner">
+    <!-- Left: social / side work links -->
+    <div class="footer__col footer__col--left">
+      <a
+        href="https://www.instagram.com"
+        target="_blank"
+        rel="noopener noreferrer">Instagram</a
+      >
+      <a
+        href="https://www.instagram.com"
+        target="_blank"
+        rel="noopener noreferrer">Drawing and Watercolor</a
+      >
+    </div>
+
+    <!-- Center: CC logo mark -->
+    <div class="footer__col footer__col--center">
+      <img src="/images/cc-logo-footer.svg" alt="Cecilia Ceballos" />
+    </div>
+
+    <!-- Right: contact links -->
+    <div class="footer__col footer__col--right">
+      <a href="mailto:studio@ceciliaceballos.com">studio@ceciliaceballos.com</a>
+      <a
+        href="https://www.linkedin.com/in/ceciliaceballos"
+        target="_blank"
+        rel="noopener noreferrer">LinkedIn</a
+      >
+      <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: #fff;
+    padding: 0 94px;
+    min-height: 283px;
+    display: flex;
+    align-items: center;
+  }
+
+  .footer__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .footer__col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer__col a {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: 0.125em;
+    color: #000;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+  }
+
+  .footer__col a:hover {
+    opacity: 0.5;
+  }
+
+  .footer__col--left {
+    align-items: flex-end;
+  }
+
+  .footer__col--center {
+    flex: 1;
+    align-items: center;
+    padding: 0 40px;
+  }
+
+  .footer__col--center img {
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+  }
+
+  .footer__col--right {
+    align-items: flex-start;
+  }
+
+  /* ── Mobile ──────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .footer {
+      padding: 48px 24px;
+      min-height: unset;
+    }
+
+    .footer__inner {
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .footer__col--center {
+      padding: 0;
+      order: -1;
+    }
+
+    .footer__col--center img {
+      max-width: 240px;
+    }
+
+    .footer__col--left,
+    .footer__col--right {
+      align-items: center;
+    }
+
+    .footer__col a {
+      font-size: 14px;
+    }
+  }
+</style>

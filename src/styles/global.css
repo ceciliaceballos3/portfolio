@@ -1,0 +1,35 @@
+/* League Spartan — weights 300 (Light), 400 (Regular), 500 (Medium) */
+@import '@fontsource/league-spartan/300.css';
+@import '@fontsource/league-spartan/400.css';
+@import '@fontsource/league-spartan/500.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: 'League Spartan', sans-serif;
+  font-size: 16px;
+  background-color: #fff;
+  color: #000;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100dvh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
