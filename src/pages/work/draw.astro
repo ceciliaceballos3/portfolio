@@ -703,9 +703,32 @@ import Footer from '../../components/Footer.astro';
       display: none;
     }
 
+    /* Base: prevent flex stretch */
     .col--img {
       flex: none;
-      height: 400px;
+    }
+
+    /* Cover images: full bleed, fixed height, no padding */
+    .col--cover {
+      height: 280px;
+    }
+
+    /*
+     * Contain images: 16px side padding, natural height.
+     * Must switch img from absolute→static so height: auto works.
+     */
+    .col--contain {
+      position: static;
+      overflow: visible;
+      height: auto;
+      padding: 0 16px;
+    }
+    .col--contain img {
+      position: static;
+      inset: unset;
+      width: 100%;
+      height: auto;
+      max-width: 100%;
     }
 
     /* Slide 8: single-column stack on mobile */
