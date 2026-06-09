@@ -703,32 +703,45 @@ import Footer from '../../components/Footer.astro';
       display: none;
     }
 
-    /* Base: prevent flex stretch */
+    /*
+     * ALL image columns on mobile:
+     * – Switch from absolute→static so padding + natural height work
+     * – 16px horizontal padding on every slide (matches Figma)
+     */
     .col--img {
       flex: none;
-    }
-
-    /* Cover images: full bleed, fixed height, no padding */
-    .col--cover {
-      height: 280px;
-    }
-
-    /*
-     * Contain images: 16px side padding, natural height.
-     * Must switch img from absolute→static so height: auto works.
-     */
-    .col--contain {
       position: static;
       overflow: visible;
-      height: auto;
       padding: 0 16px;
     }
-    .col--contain img {
+    .col--img img {
       position: static;
       inset: unset;
       width: 100%;
-      height: auto;
       max-width: 100%;
+      display: block;
+    }
+
+    /* Cover: fixed height, cropped */
+    .col--cover {
+      height: 280px;
+      overflow: hidden;
+    }
+    .col--cover img {
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    /* Contain: natural height (image dictates its own height) */
+    .col--contain img {
+      height: auto;
+      object-fit: contain;
+    }
+
+    /* Slide 1: image on top of text on mobile */
+    .slide:first-child .col--img {
+      order: -1;
     }
 
     /* Slide 8: single-column stack on mobile */
