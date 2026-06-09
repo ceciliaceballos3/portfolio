@@ -728,31 +728,26 @@ import Footer from '../../components/Footer.astro';
     background: #9cd08a;
   }
 
-  /* Grid: left:64 top:156, 553×454, 2-col 2-row, gap-y:56 */
+  /* Grid: fills most of the right panel, 2-col 2-row */
   .s11-grid {
     position: absolute;
-    left: 64px;
-    top: 156px;
-    width: 553px;
-    height: 454px;
+    inset: 32px 32px 32px 32px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    column-gap: 2px;
-    row-gap: 56px;
+    column-gap: 24px;
+    row-gap: 24px;
   }
 
   .s11-cell {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
   }
 
   .s11-cell img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: center;
     display: block;
     max-width: none;
     mix-blend-mode: multiply;
