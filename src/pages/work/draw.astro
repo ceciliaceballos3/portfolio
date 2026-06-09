@@ -834,18 +834,25 @@ import Footer from '../../components/Footer.astro';
       display: none;
     }
 
-    /* Slide 9: show mobile composite, hide desktop row */
+    /* Slide 9: use individual images in a 2-col grid on mobile */
     .slide--s9 {
       height: auto;
       position: static;
       overflow: visible;
       padding: 0 16px;
     }
-    .s9-row {
+    .s9-mobile {
       display: none;
     }
-    .s9-mobile {
-      display: block;
+    .s9-row {
+      position: static;
+      top: auto;
+      left: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .s9-img {
       width: 100%;
       height: auto;
     }
