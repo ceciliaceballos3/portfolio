@@ -11,6 +11,9 @@ importers:
       '@astrojs/sitemap':
         specifier: ^3.7.3
         version: 3.7.3
+      '@fontsource/crimson-pro':
+        specifier: ^5.2.8
+        version: 5.2.8
       '@fontsource/league-spartan':
         specifier: ^5.2.8
         version: 5.2.8
@@ -339,6 +342,9 @@ packages:
   '@eslint/plugin-kit@0.7.2':
     resolution: {integrity: sha512-+CNAzxglkrpNf/kKywqQfk74QjtceuOE7Qm+AF8miRvPF/wmmK5+OJOgVh3AVTT3RP2mH3+FOaxlE5v72owk0A==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
+
+  '@fontsource/crimson-pro@5.2.8':
+    resolution: {integrity: sha512-t+cAoAswUKEReDPqDNWWSyAp7baZkKrtF6Ry0KrDZQHJCldS9pIbRH0n2hm1u4+SbIUI7c+nUS9yfK6rEhycTw==}
 
   '@fontsource/league-spartan@5.2.8':
     resolution: {integrity: sha512-83zacDd4BcvLwQ5JLjMg9s81MybTGKLsQJTihXSy4iQZEhMOofIvfhpe6udE7xk4l29NaQCK59DAzv1HfdIbLw==}
@@ -2543,6 +2549,8 @@ snapshots:
     dependencies:
       '@eslint/core': 1.2.1
       levn: 0.4.1
+
+  '@fontsource/crimson-pro@5.2.8': {}
 
   '@fontsource/league-spartan@5.2.8': {}
 

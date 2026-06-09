@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
+    "@fontsource/crimson-pro": "^5.2.8",
     "@fontsource/league-spartan": "^5.2.8",
     "astro": "^6.4.4"
   },

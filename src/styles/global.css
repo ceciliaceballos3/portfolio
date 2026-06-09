@@ -1,7 +1,13 @@
-/* League Spartan — weights 300 (Light), 400 (Regular), 500 (Medium) */
+/* League Spartan — weights 300 (Light), 400 (Regular), 500 (Medium), 600 (SemiBold), 700 (Bold) */
 @import '@fontsource/league-spartan/300.css';
 @import '@fontsource/league-spartan/400.css';
 @import '@fontsource/league-spartan/500.css';
+@import '@fontsource/league-spartan/600.css';
+@import '@fontsource/league-spartan/700.css';
+
+/* Crimson Pro — used in case study body text */
+@import '@fontsource/crimson-pro/400.css';
+@import '@fontsource/crimson-pro/700.css';
 
 *,
 *::before,
