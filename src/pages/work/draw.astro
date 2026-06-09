@@ -1002,16 +1002,17 @@ import Footer from '../../components/Footer.astro';
       height: auto;
     }
 
-    /* Slide 11 mobile: two 386px green rectangles with 16px padding all sides */
+    /* Slide 11 mobile: two 386px green rectangles, 16px margins + gap */
     .slide--s11 {
       height: auto;
       flex-direction: column;
       gap: 16px;
-      padding: 16px;
+      padding: 0;
+      background: #fff;
     }
     .s11-left {
       flex: none;
-      width: 100%;
+      margin: 0 16px;
       height: 386px;
       padding: 24px;
       gap: 16px;
@@ -1025,7 +1026,7 @@ import Footer from '../../components/Footer.astro';
     }
     .s11-right {
       flex: none;
-      width: 100%;
+      margin: 0 16px;
       height: 386px;
     }
     .s11-grid {
