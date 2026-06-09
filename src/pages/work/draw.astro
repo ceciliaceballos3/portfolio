@@ -265,13 +265,6 @@ import Footer from '../../components/Footer.astro';
           </div>
         </div>
       </div>
-      <!-- Mobile fallback -->
-      <img
-        src="/images/draw/mobile/slide-08.png"
-        alt="Hand-drawn wireframes for all four core flows"
-        class="s8-mobile"
-        loading="lazy"
-      />
     </div>
 
     <!-- ── Slide 9: 4 digital wireframe screens ──────────── -->
@@ -712,20 +705,38 @@ import Footer from '../../components/Footer.astro';
 
     .col--img {
       flex: none;
-      height: 280px;
+      height: 400px;
     }
 
-    /* Slide 8: swap grid for mobile composite */
+    /* Slide 8: single-column stack on mobile */
     .slide--2x2 {
       height: auto;
+      position: static;
+      overflow: visible;
     }
     .s8-grid {
-      display: none;
-    }
-    .s8-mobile {
-      display: block;
+      /* Unpin from absolute, switch to 1-column flow */
+      position: static;
       width: 100%;
       height: auto;
+      top: auto;
+      left: auto;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      gap: 2px;
+    }
+    /*
+     * Each cell gets the landscape aspect ratio (2801:1976)
+     * so the -90° rotation still fills it correctly:
+     *   cqh = cell height → rotated-div width  = landscape short side
+     *   cqw = cell width  → rotated-div height = landscape long side
+     */
+    .s8-cell {
+      aspect-ratio: 2801 / 1976;
+    }
+    /* Hide the composite fallback — we use individual images */
+    .s8-mobile {
+      display: none;
     }
 
     /* Picture-wrapped screenshots */
