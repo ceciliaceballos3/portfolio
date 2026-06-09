@@ -899,13 +899,20 @@ import Footer from '../../components/Footer.astro';
       height: auto;
     }
 
-    /* Slide 10 logo column on mobile */
+    /* Slide 10: text col has no green bg on mobile (Figma: white page) */
+    .slide--green .col--text {
+      background: #fff;
+    }
+
+    /* Slide 10 logo column on mobile:
+       Figma: 16px margin each side, 386px tall, logo 136px centered */
     .col--logo {
       flex: none;
-      padding: 40px 24px;
+      margin: 0 16px;
+      height: 386px;
     }
     .col--logo img {
-      width: 200px;
+      width: 136px;
       height: auto;
     }
 
