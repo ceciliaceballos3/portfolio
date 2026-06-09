@@ -341,18 +341,41 @@ import Footer from '../../components/Footer.astro';
       </div>
     </div>
 
-    <!-- ── Slide 11: Design system details ───────────────── -->
-    <picture class="slide-screenshot-wrap">
-      <source
-        media="(max-width: 768px)"
-        srcset="/images/draw/mobile/slide-11.png"
-      />
-      <img
-        src="/images/draw/slide-11.png"
-        alt="DRAW typography system and hand-drawn illustration samples"
-        loading="lazy"
-      />
-    </picture>
+    <!-- ── Slide 11: Design system ──────────────────────── -->
+    <div class="slide slide--s11">
+      <!-- Left: colour palette SVG + component mockup -->
+      <div class="s11-left">
+        <img
+          src="/images/draw/s11-palette.svg"
+          alt="DRAW colour palette"
+          class="s11-palette"
+          loading="lazy"
+        />
+        <img
+          src="/images/draw/s11-component.png"
+          alt="DRAW typography and component system"
+          class="s11-component"
+          loading="lazy"
+        />
+      </div>
+      <!-- Right: 2×2 grid of hand-drawn illustrations -->
+      <div class="s11-right">
+        <div class="s11-grid">
+          <div class="s11-cell">
+            <img src="/images/draw/s11-illus-1.png" alt="Hand-drawn building illustration" loading="lazy" />
+          </div>
+          <div class="s11-cell">
+            <img src="/images/draw/s11-illus-2.png" alt="Hand-drawn nature landscape illustration" loading="lazy" />
+          </div>
+          <div class="s11-cell">
+            <img src="/images/draw/s11-illus-3.png" alt="Hand-drawn figure in motion illustration" loading="lazy" />
+          </div>
+          <div class="s11-cell">
+            <img src="/images/draw/s11-illus-4.png" alt="Hand-drawn still life illustration" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- ── Slide 12: The final product ───────────────────── -->
     <picture class="slide-screenshot-wrap">
@@ -665,6 +688,71 @@ import Footer from '../../components/Footer.astro';
     width: 269px;
     height: auto;
     display: block;
+  }
+
+  /* ── Slide 11: Design system ─────────────────────────── */
+  /*   Left: 627px green panel — palette + component        */
+  /*   Right: flex-1 green panel — 2×2 illustration grid    */
+  .slide--s11 {
+    height: 765px;
+    min-height: unset;
+    background: #9cd08a;
+  }
+
+  .s11-left {
+    flex: 0 0 627px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 38px;
+    padding: 82px 111px;
+    background: #9cd08a;
+  }
+
+  .s11-palette {
+    width: 282px;
+    height: auto;
+    display: block;
+  }
+
+  .s11-component {
+    width: 405px;
+    height: auto;
+    display: block;
+  }
+
+  .s11-right {
+    flex: 1;
+    position: relative;
+    background: #9cd08a;
+  }
+
+  /* Grid: left:64 top:156, 553×454, 2-col 2-row, gap-y:56 */
+  .s11-grid {
+    position: absolute;
+    left: 64px;
+    top: 156px;
+    width: 553px;
+    height: 454px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    column-gap: 2px;
+    row-gap: 56px;
+  }
+
+  .s11-cell {
+    overflow: hidden;
+  }
+
+  .s11-cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    max-width: none;
   }
 
   /* ── Slide 1 hero typography ─────────────────────────── */
