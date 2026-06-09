@@ -1,0 +1,345 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+const desktopSlides = [
+  {
+    file: 'slide-01.png',
+    w: 1360,
+    h: 765,
+    alt: 'DRAW — project title: Helping people who keep giving up on drawing',
+  },
+  {
+    file: 'slide-02.png',
+    w: 1360,
+    h: 765,
+    alt: 'The cycle everyone knows — the problem of repeatedly quitting drawing',
+  },
+  {
+    file: 'slide-03.png',
+    w: 1360,
+    h: 768,
+    alt: 'What I set out to learn — research goals before designing anything',
+  },
+  {
+    file: 'slide-04.png',
+    w: 1360,
+    h: 768,
+    alt: 'The research — secondary research, user interviews, and affinity mapping',
+  },
+  {
+    file: 'slide-05.png',
+    w: 1360,
+    h: 768,
+    alt: 'What the research revealed — real barriers to consistency in drawing',
+  },
+  {
+    file: 'slide-06.png',
+    w: 1360,
+    h: 765,
+    alt: 'Two people, one problem — introduction to the two user personas',
+  },
+  {
+    file: 'slide-07.png',
+    w: 1360,
+    h: 906,
+    alt: 'Antonella and Nick — two personas with different motivations and the same pain points',
+  },
+  {
+    file: 'slide-08.png',
+    w: 1360,
+    h: 810,
+    alt: 'Reframing the problem — HMW statements guiding the design direction',
+  },
+  {
+    file: 'slide-09.png',
+    w: 1360,
+    h: 810,
+    alt: 'Wireframes — four core flows: routine creation, accountability, guidance, and progress',
+  },
+  {
+    file: 'slide-10.png',
+    w: 1360,
+    h: 765,
+    alt: 'From flows to screens — user flows, sketches, and digital wireframes',
+  },
+  {
+    file: 'slide-11.png',
+    w: 1360,
+    h: 765,
+    alt: 'Giving DRAW a personality — visual identity: logo, colors, shapes, and illustrations',
+  },
+  {
+    file: 'slide-12.png',
+    w: 1360,
+    h: 765,
+    alt: 'DRAW brand identity — typography, components, and illustration style',
+  },
+  {
+    file: 'slide-13.png',
+    w: 1360,
+    h: 765,
+    alt: 'The final product — high-fidelity screens for all four core flows',
+  },
+  {
+    file: 'slide-14.png',
+    w: 1360,
+    h: 765,
+    alt: 'Hi-fi mockups — routine creation and daily practice flows',
+  },
+  {
+    file: 'slide-15.png',
+    w: 1360,
+    h: 765,
+    alt: 'Testing with real users — usability testing findings from round one',
+  },
+  {
+    file: 'slide-16.png',
+    w: 1360,
+    h: 765,
+    alt: 'Validating the fixes — round two usability test results',
+  },
+  {
+    file: 'slide-17.png',
+    w: 1360,
+    h: 765,
+    alt: 'What I learned — research, personas, and the value of subtraction in design',
+  },
+  {
+    file: 'slide-18.png',
+    w: 1360,
+    h: 765,
+    alt: 'Next steps and tools used — future exploration areas and project methods',
+  },
+];
+
+const mobileSlides = [
+  {
+    file: 'slide-01.png',
+    w: 375,
+    h: 528,
+    alt: 'DRAW — project title on mobile',
+  },
+  {
+    file: 'slide-02.png',
+    w: 375,
+    h: 587,
+    alt: 'The cycle everyone knows — mobile',
+  },
+  {
+    file: 'slide-03.png',
+    w: 375,
+    h: 593,
+    alt: 'What I set out to learn — mobile',
+  },
+  { file: 'slide-04.png', w: 375, h: 683, alt: 'The research — mobile' },
+  {
+    file: 'slide-05.png',
+    w: 375,
+    h: 683,
+    alt: 'What the research revealed — mobile',
+  },
+  {
+    file: 'slide-06.png',
+    w: 375,
+    h: 699,
+    alt: 'Two people, one problem — mobile',
+  },
+  {
+    file: 'slide-07.png',
+    w: 375,
+    h: 753,
+    alt: 'Antonella and Nick personas — mobile',
+  },
+  { file: 'slide-08.png', w: 375, h: 243, alt: 'Wireframe grid — mobile' },
+  { file: 'slide-09.png', w: 375, h: 710, alt: 'Wireframe detail — mobile' },
+  {
+    file: 'slide-10.png',
+    w: 375,
+    h: 1505,
+    alt: 'DRAW brand identity and typography — mobile',
+  },
+  {
+    file: 'slide-11.png',
+    w: 375,
+    h: 1443,
+    alt: 'Final product hi-fi screens — mobile',
+  },
+  {
+    file: 'slide-12.png',
+    w: 375,
+    h: 1515,
+    alt: 'Usability testing and iteration — mobile',
+  },
+  { file: 'slide-13.png', w: 375, h: 725, alt: 'Next steps — mobile' },
+  { file: 'slide-14.png', w: 375, h: 501, alt: 'What I learned — mobile' },
+  { file: 'slide-15.png', w: 375, h: 279, alt: 'Thank you — mobile' },
+];
+---
+
+<Layout
+  title="DRAW — Cecilia Ceballos"
+  description="DRAW: A UI/UX case study helping people who keep giving up on drawing. By Cecilia Ceballos."
+>
+  <Header />
+
+  <main>
+    <!-- Desktop slides -->
+    <div class="slides slides--desktop" aria-label="DRAW case study">
+      {
+        desktopSlides.map(({ file, w, h, alt }) => (
+          <img
+            src={`/images/draw/${file}`}
+            alt={alt}
+            class="slide"
+            width={w}
+            height={h}
+            loading="lazy"
+          />
+        ))
+      }
+    </div>
+
+    <!-- Mobile slides -->
+    <div class="slides slides--mobile" aria-label="DRAW case study">
+      {
+        mobileSlides.map(({ file, w, h, alt }) => (
+          <img
+            src={`/images/draw/mobile/${file}`}
+            alt={alt}
+            class="slide"
+            width={w}
+            height={h}
+            loading="lazy"
+          />
+        ))
+      }
+    </div>
+
+    <!-- Contact section -->
+    <section class="contact" aria-label="Contact">
+      <h2 class="contact__heading">Let's work together</h2>
+      <p class="contact__body">
+        I'm currently looking for full-time UI/UX design roles. If you think I'd
+        be a good fit for your team, I'd love to hear from you.
+      </p>
+      <a href="mailto:studio@ceciliaceballos.com" class="contact__email">
+        studio@ceciliaceballos.com
+      </a>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  /* ── Slides container ────────────────────────────────── */
+  .slides {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 40px 40px 0;
+    background: #fff;
+  }
+
+  .slide {
+    display: block;
+    width: 100%;
+    max-width: 1360px;
+    height: auto;
+  }
+
+  /* Desktop visible, mobile hidden */
+  .slides--desktop {
+    display: flex;
+  }
+
+  .slides--mobile {
+    display: none;
+  }
+
+  /* ── Contact Section ─────────────────────────────────── */
+  .contact {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 144px 120px;
+    background: #fff;
+  }
+
+  .contact__heading {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 500;
+    font-size: 48px;
+    letter-spacing: 2.4px;
+    line-height: 1;
+    color: #000;
+    white-space: nowrap;
+  }
+
+  .contact__body {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 32px;
+    max-width: 640px;
+    color: #000;
+  }
+
+  .contact__email {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: 2.4px;
+    line-height: 1;
+    color: #000;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+  }
+
+  .contact__email:hover {
+    opacity: 0.5;
+  }
+
+  /* ── Mobile ──────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .slides--desktop {
+      display: none;
+    }
+
+    .slides--mobile {
+      display: flex;
+      gap: 0;
+      padding: 0;
+    }
+
+    .slides--mobile .slide {
+      max-width: 375px;
+    }
+
+    .contact {
+      padding: 80px 24px;
+      gap: 24px;
+    }
+
+    .contact__heading {
+      font-size: 32px;
+      white-space: normal;
+    }
+
+    .contact__body {
+      font-size: 18px;
+      line-height: 28px;
+    }
+
+    .contact__email {
+      font-size: 18px;
+      white-space: normal;
+      word-break: break-all;
+    }
+  }
+</style>
