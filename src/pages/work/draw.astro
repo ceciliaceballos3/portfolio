@@ -223,79 +223,147 @@ import Footer from '../../components/Footer.astro';
       </div>
     </div>
 
-    <!-- ── Slides 8–11: Visual / wireframe slides (screenshots) -->
-    <img
-      src="/images/draw/slide-08.png"
-      alt="2×2 grid of wireframe screens showing the four core flows"
-      class="slide-screenshot"
-      width="1360"
-      height="810"
-      loading="lazy"
-    />
-    <img
-      src="/images/draw/slide-09.png"
-      alt="Four wireframe screens displayed side by side"
-      class="slide-screenshot"
-      width="1360"
-      height="810"
-      loading="lazy"
-    />
-    <img
-      src="/images/draw/slide-10.png"
-      alt="DRAW brand identity — logo, color palette, and illustration style"
-      class="slide-screenshot"
-      width="1360"
-      height="765"
-      loading="lazy"
-    />
-    <img
-      src="/images/draw/slide-11.png"
-      alt="DRAW typography system and hand-drawn illustration samples"
-      class="slide-screenshot"
-      width="1360"
-      height="765"
-      loading="lazy"
-    />
+    <!-- ── Slide 8: 2×2 wireframe sketchbook grid ──────── -->
+    <!--   Desktop: 4 individual rotated photos in CSS grid  -->
+    <!--   Mobile:  composite mobile screenshot              -->
+    <div class="slide slide--2x2">
+      <div class="s8-grid">
+        <div class="s8-cell">
+          <div class="s8-rotated">
+            <img
+              src="/images/draw/s8-wire-1.jpg"
+              alt="Hand-drawn wireframes: routine setup flow"
+              loading="lazy"
+            />
+          </div>
+        </div>
+        <div class="s8-cell">
+          <div class="s8-rotated">
+            <img
+              src="/images/draw/s8-wire-2.jpg"
+              alt="Hand-drawn wireframes: daily practice flow"
+              loading="lazy"
+            />
+          </div>
+        </div>
+        <div class="s8-cell">
+          <div class="s8-rotated">
+            <img
+              src="/images/draw/s8-wire-3.jpg"
+              alt="Hand-drawn wireframes: practice library flow"
+              loading="lazy"
+            />
+          </div>
+        </div>
+        <div class="s8-cell">
+          <div class="s8-rotated">
+            <img
+              src="/images/draw/s8-wire-4.jpg"
+              alt="Hand-drawn wireframes: progress tracking flow"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- Mobile fallback -->
+      <img
+        src="/images/draw/mobile/slide-08.png"
+        alt="Hand-drawn wireframes for all four core flows"
+        class="s8-mobile"
+        loading="lazy"
+      />
+    </div>
 
-    <!-- ── Slide 12: The final product (screenshot — phone mockup) -->
-    <img
-      src="/images/draw/slide-12.png"
-      alt="The final product: high-fidelity screens for all four core flows"
-      class="slide-screenshot"
-      width="1360"
-      height="765"
-      loading="lazy"
-    />
+    <!-- ── Slide 9: 4 digital wireframe screens ──────────── -->
+    <picture class="slide-screenshot-wrap">
+      <source
+        media="(max-width: 768px)"
+        srcset="/images/draw/mobile/slide-09.png"
+      />
+      <img
+        src="/images/draw/slide-09.png"
+        alt="Four digital wireframe screens displayed side by side"
+        loading="lazy"
+      />
+    </picture>
 
-    <!-- ── Slide 13: 4-phone hi-fi grid (screenshot) -->
-    <img
-      src="/images/draw/slide-13.png"
-      alt="Four hi-fidelity phone screens displayed side by side"
-      class="slide-screenshot"
-      width="1360"
-      height="765"
-      loading="lazy"
-    />
+    <!-- ── Slide 10: Giving Draw a personality ───────────── -->
+    <picture class="slide-screenshot-wrap">
+      <source
+        media="(max-width: 768px)"
+        srcset="/images/draw/mobile/slide-10.png"
+      />
+      <img
+        src="/images/draw/slide-10.png"
+        alt="DRAW brand identity — logo, colour palette, and illustration style"
+        loading="lazy"
+      />
+    </picture>
 
-    <!-- ── Slide 14: Testing with real users (screenshot — phone mockup) -->
-    <img
-      src="/images/draw/slide-14.png"
-      alt="Usability testing findings from round one and round two"
-      class="slide-screenshot"
-      width="1360"
-      height="765"
-      loading="lazy"
-    />
+    <!-- ── Slide 11: Design system details ───────────────── -->
+    <picture class="slide-screenshot-wrap">
+      <source
+        media="(max-width: 768px)"
+        srcset="/images/draw/mobile/slide-11.png"
+      />
+      <img
+        src="/images/draw/slide-11.png"
+        alt="DRAW typography system and hand-drawn illustration samples"
+        loading="lazy"
+      />
+    </picture>
 
-    <!-- ── Slide 15: 4-phone testing grid (screenshot) -->
-    <img
-      src="/images/draw/slide-15.png"
-      alt="Four phone screens showing the revised UI after testing"
-      class="slide-screenshot"
-      width="1360"
-      height="765"
-      loading="lazy"
-    />
+    <!-- ── Slide 12: The final product ───────────────────── -->
+    <picture class="slide-screenshot-wrap">
+      <source
+        media="(max-width: 768px)"
+        srcset="/images/draw/mobile/slide-12.png"
+      />
+      <img
+        src="/images/draw/slide-12.png"
+        alt="The final product: high-fidelity screens for all four core flows"
+        loading="lazy"
+      />
+    </picture>
+
+    <!-- ── Slide 13: 4-phone hi-fi grid ──────────────────── -->
+    <picture class="slide-screenshot-wrap">
+      <source
+        media="(max-width: 768px)"
+        srcset="/images/draw/mobile/slide-13.png"
+      />
+      <img
+        src="/images/draw/slide-13.png"
+        alt="Four hi-fidelity phone screens displayed side by side"
+        loading="lazy"
+      />
+    </picture>
+
+    <!-- ── Slide 14: Testing with real users ─────────────── -->
+    <picture class="slide-screenshot-wrap">
+      <source
+        media="(max-width: 768px)"
+        srcset="/images/draw/mobile/slide-14.png"
+      />
+      <img
+        src="/images/draw/slide-14.png"
+        alt="Usability testing findings from round one and round two"
+        loading="lazy"
+      />
+    </picture>
+
+    <!-- ── Slide 15: 4-phone revised grid ────────────────── -->
+    <picture class="slide-screenshot-wrap">
+      <source
+        media="(max-width: 768px)"
+        srcset="/images/draw/mobile/slide-15.png"
+      />
+      <img
+        src="/images/draw/slide-15.png"
+        alt="Four phone screens showing the revised UI after testing"
+        loading="lazy"
+      />
+    </picture>
 
     <!-- ── Slide 16: What I learned ───────────────────── -->
     <div class="slide">
@@ -324,15 +392,14 @@ import Footer from '../../components/Footer.astro';
       </div>
     </div>
 
-    <!-- ── Slide 17: Next steps (screenshot — phone mockup) -->
-    <img
-      src="/images/draw/slide-17.png"
-      alt="Next steps: social features, streak recovery, and progress visualisation"
-      class="slide-screenshot"
-      width="1360"
-      height="765"
-      loading="lazy"
-    />
+    <!-- ── Slide 17: Next steps ──────────────────────────── -->
+    <picture class="slide-screenshot-wrap">
+      <img
+        src="/images/draw/slide-17.png"
+        alt="Next steps: social features, streak recovery, and progress visualisation"
+        loading="lazy"
+      />
+    </picture>
 
     <!-- ── Slide 18: Thank you ─────────────────────────── -->
     <div class="slide slide--reversed">
@@ -433,13 +500,78 @@ import Footer from '../../components/Footer.astro';
     text-align: right;
   }
 
-  /* ── Screenshot slides ───────────────────────────────── */
-  .slide-screenshot {
+  /* ── Screenshot slides (wrapped in <picture>) ───────── */
+  .slide-screenshot-wrap {
     display: block;
     width: 100%;
     max-width: 1360px;
-    height: auto;
     align-self: center;
+  }
+  .slide-screenshot-wrap img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ── Slide 8: 2×2 wireframe photo grid ──────────────── */
+  /*   Matches Figma: grid 1068×753 at left:146 top:29     */
+  .slide--2x2 {
+    /* Override .slide flex layout */
+    display: block;
+    position: relative;
+    height: 765px;
+    min-height: unset;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .s8-grid {
+    position: absolute;
+    top: 29px;
+    left: 146px;
+    width: 1068px;
+    height: 753px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 20px;
+  }
+
+  /* Each cell is a container so we can use cqw/cqh inside */
+  .s8-cell {
+    container-type: size;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /*
+   * The scans are portrait (1976×2801) but were rotated −90° in Figma
+   * so they appear landscape. We replicate that here:
+   *   • width  = cell HEIGHT (before rotation, this is the short axis)
+   *   • height = cell WIDTH  (before rotation, this is the long axis)
+   * After rotate(−90deg) the element visually fills the cell correctly.
+   */
+  .s8-rotated {
+    transform: rotate(-90deg);
+    flex: none;
+    width: 100cqh;
+    height: 100cqw;
+  }
+
+  .s8-rotated img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    max-width: none;
+  }
+
+  /* Mobile composite image — hidden on desktop */
+  .s8-mobile {
+    display: none;
   }
 
   /* ── Slide 1 hero typography ─────────────────────────── */
@@ -583,7 +715,21 @@ import Footer from '../../components/Footer.astro';
       height: 280px;
     }
 
-    .slide-screenshot {
+    /* Slide 8: swap grid for mobile composite */
+    .slide--2x2 {
+      height: auto;
+    }
+    .s8-grid {
+      display: none;
+    }
+    .s8-mobile {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* Picture-wrapped screenshots */
+    .slide-screenshot-wrap {
       max-width: 100%;
     }
 
