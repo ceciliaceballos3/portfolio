@@ -394,9 +394,9 @@ import Footer from '../../components/Footer.astro';
           </ol>
         </div>
       </div>
-      <div class="col col--img col--contain">
+      <div class="col col--phone">
         <img
-          src="/images/draw/s12-phone.png"
+          src="/images/draw/s12-phone.svg"
           alt="iPhone mockup showing the Draw app routine confirmation screen"
           loading="lazy"
         />
@@ -567,6 +567,21 @@ import Footer from '../../components/Footer.astro';
   .col--blank {
     flex: 0 0 50%;
     background: #fff;
+  }
+
+  /* Phone mockup column — centres phone at its Figma size */
+  .col--phone {
+    flex: 0 0 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+  }
+
+  .col--phone img {
+    width: 284px;
+    height: auto;
+    display: block;
   }
 
   /* Slide 18: reversed layout — text is right-aligned */
