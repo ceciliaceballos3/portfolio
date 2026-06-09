@@ -84,7 +84,9 @@
 
   .footer__col--center img {
     width: 100%;
-    max-width: 480px;
+    max-width: 573px;
+    /* Force the correct aspect ratio from the SVG viewBox (573 × 283) */
+    aspect-ratio: 573 / 283;
     height: auto;
   }
 
