@@ -1,0 +1,237 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const projects = [
+  {
+    slug: 'draw',
+    name: 'DRAW',
+    tagline: 'Helping people who keep giving up on drawing',
+    cover: '/images/draw-cover.jpg',
+    coverAlt: 'DRAW app — a drawing journey companion',
+  },
+  {
+    slug: 'cultr',
+    name: 'CULTR',
+    tagline: 'Designing a subscription experience for Gen Z',
+    cover: '/images/cultr-cover-work.jpg',
+    coverAlt: 'CULTR app — a fashion and culture subscription feed',
+  },
+  {
+    slug: 'savr',
+    name: 'SAVR',
+    tagline: 'Making complex recipes easy to follow',
+    cover: '/images/savr-cover.jpg',
+    coverAlt: 'SAVR app — a step-by-step recipe guide',
+  },
+  {
+    slug: 'tirivelo',
+    name: 'TIRIVELO',
+    tagline: 'Designing the system behind the service',
+    cover: '/images/tirivelo-cover.jpg',
+    coverAlt: 'TIRIVELO — service design for a booking platform',
+  },
+];
+---
+
+<Layout
+  title="Work — Cecilia Ceballos"
+  description="UI/UX case studies by Cecilia Ceballos — DRAW, CULTR, SAVR, and TIRIVELO."
+>
+  <Header />
+
+  <main>
+    <!-- Case study grid -->
+    <section class="grid" aria-label="Case studies">
+      {
+        projects.map(({ slug, name, tagline, cover, coverAlt }) => (
+          <a href={`/work/${slug}`} class="card">
+            <div class="card__cover">
+              <img
+                src={cover}
+                alt={coverAlt}
+                class="card__img"
+                width="580"
+                height="580"
+              />
+            </div>
+            <div class="card__text">
+              <p class="card__name">{name}</p>
+              <p class="card__tagline">{tagline}</p>
+            </div>
+          </a>
+        ))
+      }
+    </section>
+
+    <!-- Contact section -->
+    <section class="contact" id="contact" aria-label="Contact">
+      <h2 class="contact__heading">Let's work together</h2>
+      <p class="contact__body">
+        I'm currently looking for full-time UI/UX design roles. If you think I'd
+        be a good fit for your team, I'd love to hear from you.
+      </p>
+      <a href="mailto:studio@ceciliaceballos.com" class="contact__email">
+        studio@ceciliaceballos.com
+      </a>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  /* ── Case Study Grid ─────────────────────────────────── */
+  .grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 64px 40px;
+    padding: 144px 120px 152px;
+    align-content: flex-start;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 580px;
+    text-decoration: none;
+    color: #000;
+  }
+
+  .card__cover {
+    width: 580px;
+    height: 580px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .card:hover .card__img {
+    transform: scale(1.03);
+  }
+
+  .card__text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .card__name {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: 2.4px;
+    line-height: 1;
+    color: #000;
+  }
+
+  .card__tagline {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.4;
+    color: #000;
+  }
+
+  /* ── Contact Section ─────────────────────────────────── */
+  .contact {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 144px 120px;
+    background: #fff;
+  }
+
+  .contact__heading {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 500;
+    font-size: 48px;
+    letter-spacing: 2.4px;
+    line-height: 1;
+    color: #000;
+    white-space: nowrap;
+  }
+
+  .contact__body {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 32px;
+    max-width: 640px;
+    color: #000;
+  }
+
+  .contact__email {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: 2.4px;
+    line-height: 1;
+    color: #000;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+  }
+
+  .contact__email:hover {
+    opacity: 0.5;
+  }
+
+  /* ── Mobile ──────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .grid {
+      flex-direction: column;
+      gap: 56px;
+      padding: 64px 24px 80px;
+    }
+
+    .card {
+      width: 100%;
+    }
+
+    .card__cover {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+    }
+
+    .card__name {
+      font-size: 20px;
+    }
+
+    .card__tagline {
+      font-size: 16px;
+    }
+
+    .contact {
+      padding: 80px 24px;
+      gap: 24px;
+    }
+
+    .contact__heading {
+      font-size: 32px;
+      white-space: normal;
+    }
+
+    .contact__body {
+      font-size: 18px;
+      line-height: 28px;
+    }
+
+    .contact__email {
+      font-size: 18px;
+      white-space: normal;
+      word-break: break-all;
+    }
+  }
+</style>
