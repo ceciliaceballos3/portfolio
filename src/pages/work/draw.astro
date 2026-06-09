@@ -305,18 +305,41 @@ import Footer from '../../components/Footer.astro';
       </div>
     </div>
 
-    <!-- ── Slide 10: Giving Draw a personality ───────────── -->
-    <picture class="slide-screenshot-wrap">
-      <source
-        media="(max-width: 768px)"
-        srcset="/images/draw/mobile/slide-10.png"
-      />
-      <img
-        src="/images/draw/slide-10.png"
-        alt="DRAW brand identity — logo, colour palette, and illustration style"
-        loading="lazy"
-      />
-    </picture>
+    <!-- ── Slide 10: Giving Draw a personality ──────────── -->
+    <div class="slide slide--green">
+      <div class="col col--text">
+        <h2 class="s-heading">Giving Draw a personality</h2>
+        <div class="s-body">
+          <p>The visual identity needed to say: Relax. This is play, not pressure.</p>
+          <ul>
+            <li>
+              <strong>Logo:</strong> A pencil doodle that forms the word
+              "Draw".
+            </li>
+            <li>
+              <strong>Colors:</strong> Vibrant and unexpected, creativity
+              should feel energising.
+            </li>
+            <li><strong>Shapes:</strong> Round, soft, approachable.</li>
+            <li>
+              <strong>Illustrations:</strong> Hand-drawn marks that celebrate
+              imperfection.
+            </li>
+          </ul>
+          <p>
+            The goal was to make users feel free to experiment. No judgment.
+            No comparison. Just practice.
+          </p>
+        </div>
+      </div>
+      <div class="col col--logo">
+        <img
+          src="/images/draw/s10-logo.svg"
+          alt="Draw logo — a pencil doodle forming the word DRAW"
+          loading="lazy"
+        />
+      </div>
+    </div>
 
     <!-- ── Slide 11: Design system details ───────────────── -->
     <picture class="slide-screenshot-wrap">
@@ -625,6 +648,25 @@ import Footer from '../../components/Footer.astro';
     flex: none;
   }
 
+  /* ── Slide 10: Giving Draw a personality ─────────────── */
+  .slide--green .col--text,
+  .slide--green .col--logo {
+    background: #9cd08a;
+  }
+
+  .col--logo {
+    flex: 0 0 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .col--logo img {
+    width: 269px;
+    height: 253px;
+    display: block;
+  }
+
   /* ── Slide 1 hero typography ─────────────────────────── */
   .s-pretitle {
     font-family: 'League Spartan', sans-serif;
@@ -854,6 +896,16 @@ import Footer from '../../components/Footer.astro';
     }
     .s9-img {
       width: 100%;
+      height: auto;
+    }
+
+    /* Slide 10 logo column on mobile */
+    .col--logo {
+      flex: none;
+      padding: 40px 24px;
+    }
+    .col--logo img {
+      width: 200px;
       height: auto;
     }
 
