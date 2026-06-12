@@ -24,6 +24,7 @@ const projects = [
     tagline: 'Making complex recipes easy to follow',
     cover: '/images/savr-cover.jpg',
     coverAlt: 'SAVR app — a step-by-step recipe guide',
+    coverPosition: 'center top',
   },
   {
     slug: 'tirivelo',
@@ -45,7 +46,7 @@ const projects = [
     <!-- Case study grid -->
     <section class="grid" aria-label="Case studies">
       {
-        projects.map(({ slug, name, tagline, cover, coverAlt }) => (
+        projects.map(({ slug, name, tagline, cover, coverAlt, coverPosition }) => (
           <a href={`/work/${slug}`} class="card">
             <div class="card__cover">
               <img
@@ -54,6 +55,7 @@ const projects = [
                 class="card__img"
                 width="580"
                 height="580"
+                style={coverPosition ? `object-position: ${coverPosition}` : undefined}
               />
             </div>
             <div class="card__text">

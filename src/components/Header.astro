@@ -11,18 +11,20 @@ const currentPath = Astro.url.pathname;
 <header class="header">
   <!-- CC logo mark (two circles) centered at top -->
   <div class="header__logo-mark">
-    <img
-      src="/images/cc-logo-header.png"
-      alt="Cecilia Ceballos logo"
-      width="146"
-      height="73"
-    />
+    <a href="/" aria-label="Cecilia Ceballos — home">
+      <img
+        src="/images/cc-logo-header.svg"
+        alt="Cecilia Ceballos logo"
+        width="146"
+        height="73"
+      />
+    </a>
   </div>
 
   <!-- Nav bar: wordmark left · nav links right -->
   <nav class="header__nav" aria-label="Main navigation">
     <a href="/" class="header__wordmark" aria-label="Cecilia Ceballos — home">
-      cecilia ceballos
+      <img src="/images/wordmark-header.svg" alt="Cecilia Ceballos" />
     </a>
     <ul class="header__links" role="list">
       {
@@ -61,7 +63,7 @@ const currentPath = Astro.url.pathname;
   }
 
   .header__logo-mark img {
-    width: 146px;
+    width: 60px;
     height: auto;
   }
 
@@ -74,7 +76,7 @@ const currentPath = Astro.url.pathname;
     padding: 0 52px;
   }
 
-  /* Wordmark — "cecilia ceballos" */
+  /* Wordmark */
   .header__wordmark {
     font-family: 'League Spartan', sans-serif;
     font-weight: 300;
@@ -110,19 +112,27 @@ const currentPath = Astro.url.pathname;
   /* ── Mobile ──────────────────────────────────────────── */
   @media (max-width: 768px) {
     .header {
-      padding: 24px 0 0;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px;
+    }
+
+    .header__logo-mark {
+      margin-bottom: 0;
     }
 
     .header__logo-mark img {
-      width: 56px;
-    }
-
-    .header__nav {
-      padding: 0 24px;
+      width: 40px;
     }
 
     .header__wordmark {
-      font-size: 11px;
+      display: none;
+    }
+
+    .header__nav {
+      width: auto;
+      padding: 0;
     }
 
     .header__links {

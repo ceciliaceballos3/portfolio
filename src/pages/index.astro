@@ -16,19 +16,27 @@ import Footer from '../components/Footer.astro';
       </p>
 
       <div class="hero__image-wrap">
-        <img
-          src="/images/hero-cultr.jpg"
-          alt="CULTR app — a subscription experience for Gen Z"
-          class="hero__image"
-          width="580"
-          height="580"
-        />
+        <img src="/images/hero-cultr.jpg"          alt="CULTR — a subscription experience for Gen Z"     class="hero__image is-active" />
+        <img src="/images/draw/s1-hero.webp"        alt="DRAW — helping people who keep giving up on drawing" class="hero__image" />
+        <img src="/images/savr/s1-hero.webp"        alt="SAVR — a meal planning and grocery app"         class="hero__image" style="object-position: center top;" />
+        <img src="/images/tirivelo/s1-hero.webp"   alt="TiriVelo — admin dashboard for a pet services platform" class="hero__image" />
       </div>
     </section>
   </main>
 
   <Footer />
 </Layout>
+
+<script>
+  const images = document.querySelectorAll<HTMLImageElement>('.hero__image');
+  let current = 0;
+
+  setInterval(() => {
+    images[current].classList.remove('is-active');
+    current = (current + 1) % images.length;
+    images[current].classList.add('is-active');
+  }, 3000);
+</script>
 
 <style>
   .home {
@@ -58,19 +66,28 @@ import Footer from '../components/Footer.astro';
   }
 
   .hero__image-wrap {
+    position: relative;
     width: 580px;
     height: 580px;
     overflow: hidden;
   }
 
   .hero__image {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    opacity: 0;
+    transition: opacity 1s ease;
   }
 
-  /* ── Mobile ──────────────────────────────────────────── */
+  .hero__image.is-active {
+    opacity: 1;
+  }
+
+  /* ── Mobile ─────────────────────────────────────────── */
   @media (max-width: 768px) {
     .hero {
       padding: 64px 24px 100px;

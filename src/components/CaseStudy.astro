@@ -1,0 +1,886 @@
+---
+import type { CaseStudy } from '../types/case-study';
+import Layout from '../layouts/Layout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+
+interface Props {
+  data: CaseStudy;
+}
+
+const { data } = Astro.props;
+---
+
+<Layout title={data.title} description={data.description}>
+  <Header />
+
+  <main class="case-study">
+    {data.slides.map((block, i) => {
+
+      /* ── full-image ── */
+      if (block.type === 'full-image') {
+        return (
+          <picture class="slide-screenshot-wrap">
+            {block.mobileSrc && <source media="(max-width: 768px)" srcset={block.mobileSrc} />}
+            <img src={block.src} alt={block.alt} loading="lazy" />
+          </picture>
+        );
+      }
+
+      /* ── narrow-text (1/3 text | 2/3 image) ── */
+      if (block.type === 'narrow-text') {
+        const isHero = !!block.text.pretitle;
+        const fit    = block.image.fit ?? 'contain';
+        const bg     = block.bgColor ?? '#fff';
+        const fg     = block.textColor ?? '#000';
+        return (
+          <div class="slide--narrow" style={{ background: bg, color: fg }}>
+            <div class:list={['col--narrow-text', isHero && 'col--narrow-text--hero']}>
+              {isHero ? (
+                <>
+                  <p class="s-pretitle">{block.text.pretitle}</p>
+                  <h1 class="s-heading">{block.text.heading}</h1>
+                  <p class="s-tagline">{block.text.tagline}</p>
+                </>
+              ) : (
+                <>
+                  {block.text.heading && <h2 class="s-heading">{block.text.heading}</h2>}
+                  {block.text.body && <div class="s-body" set:html={block.text.body} />}
+                </>
+              )}
+            </div>
+            <div class:list={['col--narrow-img', fit === 'cover' && 'col--narrow-img--cover']}>
+              {block.image.mobileSrc ? (
+                <picture>
+                  <source media="(max-width: 768px)" srcset={block.image.mobileSrc} />
+                  <img src={block.image.src} alt={block.image.alt} loading={i === 0 ? 'eager' : 'lazy'} />
+                </picture>
+              ) : (
+                <img src={block.image.src} alt={block.image.alt} loading={i === 0 ? 'eager' : 'lazy'} />
+              )}
+            </div>
+          </div>
+        );
+      }
+
+      /* ── stacked (heading + 2-col text top | full image bottom) ── */
+      if (block.type === 'stacked') {
+        const bg = block.bgColor ?? '#fff';
+        const fg = block.textColor ?? '#000';
+        return (
+          <div class="slide--stacked" style={{ background: bg, color: fg }}>
+            <div class="stacked-top">
+              {block.heading && <h2 class="s-heading">{block.heading}</h2>}
+              {(block.leftText || block.rightText) && (
+                <div class:list={['stacked-top__cols', !block.rightText && 'stacked-top__cols--single']}>
+                  {block.leftText && <div class="s-body" set:html={block.leftText} />}
+                  {block.rightText && <div class="s-body" set:html={block.rightText} />}
+                </div>
+              )}
+            </div>
+            <div class:list={['stacked-bottom', block.image.mobileScrollable && 'stacked-bottom--scrollable']}>
+              {block.image.mobileSrc ? (
+                <picture>
+                  <source media="(max-width: 768px)" srcset={block.image.mobileSrc} />
+                  <img src={block.image.src} alt={block.image.alt} loading="lazy" />
+                </picture>
+              ) : (
+                <img src={block.image.src} alt={block.image.alt} loading="lazy" />
+              )}
+            </div>
+          </div>
+        );
+      }
+
+      /* ── stacked-split (heading + 2-col text top | 1/3 text + 2/3 image bottom) ── */
+      if (block.type === 'stacked-split') {
+        const bg = block.bgColor ?? '#fff';
+        const fg = block.textColor ?? '#000';
+        return (
+          <div class="slide--stacked-split" style={{ background: bg, color: fg }}>
+            <div class="stacked-top">
+              {block.heading && <h2 class="s-heading">{block.heading}</h2>}
+              {(block.topLeftText || block.topRightText) && (
+                <div class:list={['stacked-top__cols', !block.topRightText && 'stacked-top__cols--single']}>
+                  {block.topLeftText && <div class="s-body" set:html={block.topLeftText} />}
+                  {block.topRightText && <div class="s-body" set:html={block.topRightText} />}
+                </div>
+              )}
+            </div>
+            <div class="stacked-split-bottom">
+              {block.bottomText && (
+                <div class="stacked-split-bottom__text">
+                  <div class="s-body" set:html={block.bottomText} />
+                </div>
+              )}
+              <div class="stacked-split-bottom__img">
+                {block.image.mobileSrc ? (
+                  <picture>
+                    <source media="(max-width: 768px)" srcset={block.image.mobileSrc} />
+                    <img src={block.image.src} alt={block.image.alt} loading="lazy" />
+                  </picture>
+                ) : (
+                  <img src={block.image.src} alt={block.image.alt} loading="lazy" />
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      /* ── text-image (50/50) ── */
+      const isHero     = !!block.text.pretitle;
+      const fit        = block.image?.fit ?? 'cover';
+      const bg         = block.bgColor ?? '#fff';
+      const fg         = block.textColor ?? '#000';
+      const isReversed = !!block.imageLeft;
+      const isThankYou = block.image === null && !!block.imageLeft;
+
+      return (
+        <div class:list={['slide', isReversed && 'slide--reversed']}>
+
+          {/* Text column */}
+          <div
+            class:list={['col', 'col--text', isHero && 'col--text--hero', isThankYou && 'col--text-right']}
+            style={{ background: bg, color: fg }}
+          >
+            {isHero ? (
+              <>
+                <p class="s-pretitle">{block.text.pretitle}</p>
+                <p class="s-tagline">{block.text.tagline}</p>
+              </>
+            ) : (
+              <>
+                {block.text.heading && (
+                  <h2 class:list={['s-heading', isThankYou && 's-heading--right']}>
+                    {block.text.heading}
+                  </h2>
+                )}
+                {block.text.body && <div class="s-body" set:html={block.text.body} />}
+              </>
+            )}
+          </div>
+
+          {/* Image column */}
+          {block.image === null ? (
+            <div class="col col--blank" />
+          ) : fit === 'logo' ? (
+            <div class="col col--logo" style={{ background: bg }}>
+              {block.image.mobileSrc ? (
+                <picture>
+                  <source media="(max-width: 768px)" srcset={block.image.mobileSrc} />
+                  <img src={block.image.src} alt={block.image.alt} loading="lazy" />
+                </picture>
+              ) : (
+                <img src={block.image.src} alt={block.image.alt} loading="lazy" />
+              )}
+            </div>
+          ) : fit === 'phone' ? (
+            <div class="col col--phone" style={{ background: bg }}>
+              {block.image.mobileSrc ? (
+                <picture>
+                  <source media="(max-width: 768px)" srcset={block.image.mobileSrc} />
+                  <img src={block.image.src} alt={block.image.alt} loading="lazy" />
+                </picture>
+              ) : (
+                <img src={block.image.src} alt={block.image.alt} loading="lazy" />
+              )}
+            </div>
+          ) : block.image.videoSrc ? (
+            /* ── Video-in-phone-frame column ── */
+            <div class="col col--video-phone" style={{ background: bg }}>
+              <div class="phone-video-wrap">
+                <video autoplay muted loop playsinline>
+                  <source src={block.image.videoSrc} type="video/mp4" />
+                </video>
+                <picture>
+                  {block.image.mobileSrc && (
+                    <source media="(max-width: 768px)" srcset={block.image.mobileSrc} />
+                  )}
+                  <img src={block.image.src} alt="" class="phone-frame-img" />
+                </picture>
+              </div>
+            </div>
+          ) : (
+            <div
+              class:list={['col', 'col--img', fit === 'cover' ? 'col--cover' : 'col--contain']}
+              style={{ background: bg }}
+            >
+              {block.image.mobileSrc ? (
+                <picture>
+                  <source media="(max-width: 768px)" srcset={block.image.mobileSrc} />
+                  <img
+                    src={block.image.src}
+                    alt={block.image.alt}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                  />
+                </picture>
+              ) : (
+                <img
+                  src={block.image.src}
+                  alt={block.image.alt}
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                />
+              )}
+            </div>
+          )}
+
+        </div>
+      );
+    })}
+
+    <section class="contact" aria-label="Contact">
+      <h2 class="contact__heading">Let's work together</h2>
+      <p class="contact__body">
+        I'm currently looking for full-time UI/UX design roles. If you think I'd
+        be a good fit for your team, I'd love to hear from you.
+      </p>
+      <a href="mailto:studio@ceciliaceballos.com" class="contact__email">
+        studio@ceciliaceballos.com
+      </a>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  /* ── Case study wrapper ──────────────────────────────── */
+  .case-study {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 40px 40px 0;
+    background: #fff;
+  }
+
+  /* ── Slide ───────────────────────────────────────────── */
+  .slide {
+    display: flex;
+    width: 100%;
+    max-width: 1360px;
+    min-height: 765px;
+    background: #fff;
+  }
+
+  /* ── Text column ─────────────────────────────────────── */
+  .col--text {
+    flex: 0 0 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 24px;
+    padding: 80px 52px;
+    background: #fff;
+  }
+
+  /* Hero slide: tighter gap between pretitle and tagline */
+  .col--text--hero {
+    gap: 12px;
+  }
+
+  /* Thank-you slide: text right-aligned */
+  .col--text-right {
+    gap: 80px;
+  }
+
+  /* ── Image column ────────────────────────────────────── */
+  .col--img {
+    flex: 0 0 50%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* picture inside col--img is transparent to layout */
+  .col--img picture {
+    display: contents;
+  }
+
+  .col--img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    display: block;
+  }
+
+  .col--cover img {
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .col--contain img {
+    object-fit: contain;
+  }
+
+  /* ── Blank column (thank-you left side) ──────────────── */
+  .col--blank {
+    flex: 0 0 50%;
+    background: #fff;
+  }
+
+  /* ── Phone mockup column ─────────────────────────────── */
+  .col--phone {
+    flex: 0 0 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+  }
+
+  .col--phone img {
+    width: 284px;
+    height: auto;
+    display: block;
+  }
+
+  /* ── Logo column ─────────────────────────────────────── */
+  .col--logo {
+    flex: 0 0 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .col--logo img {
+    width: 269px;
+    height: auto;
+    display: block;
+  }
+
+  /* ── Reversed slide (thank you) ──────────────────────── */
+  .s-heading--right {
+    text-align: right;
+  }
+
+  /* ── Screenshot slides ───────────────────────────────── */
+  .slide-screenshot-wrap {
+    display: block;
+    width: 100%;
+    max-width: 1360px;
+    align-self: center;
+  }
+
+  .slide-screenshot-wrap img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ── Hero typography ─────────────────────────────────── */
+  .s-pretitle {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: 3.6px;
+    line-height: 1;
+    color: inherit;
+  }
+
+  .s-tagline {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: -0.4px;
+    line-height: 1.32;
+    color: inherit;
+  }
+
+  /* ── Slide heading ───────────────────────────────────── */
+  .s-heading {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 2px;
+    line-height: 1.2;
+    color: inherit;
+  }
+
+  /* ── Body text ───────────────────────────────────────── */
+  .s-body {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: -0.32px;
+    line-height: 1.32;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .s-body :global(p),
+  .s-body :global(li) {
+    margin: 0;
+  }
+
+  .s-body :global(ul),
+  .s-body :global(ol) {
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .s-body :global(strong),
+  .s-body :global(b) {
+    font-weight: 700;
+  }
+
+  .s-body :global(em) {
+    font-style: italic;
+  }
+
+  /* ── Contact section ─────────────────────────────────── */
+  .contact {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 144px 120px;
+    background: #fff;
+    width: 100%;
+    max-width: 1440px;
+  }
+
+  .contact__heading {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 500;
+    font-size: 48px;
+    letter-spacing: 2.4px;
+    line-height: 1;
+    color: #000;
+    white-space: nowrap;
+  }
+
+  .contact__body {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 32px;
+    max-width: 640px;
+    color: #000;
+  }
+
+  .contact__email {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: 2.4px;
+    line-height: 1;
+    color: #000;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+  }
+
+  .contact__email:hover {
+    opacity: 0.5;
+  }
+
+  /* ── Narrow text (1/3 | 2/3) ───────────────────────── */
+  .slide--narrow {
+    display: flex;
+    width: 100%;
+    max-width: 1360px;
+    min-height: 765px;
+    background: #fff;
+  }
+
+  .col--narrow-text {
+    flex: 0 0 33.38%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 24px;
+    padding: 80px 52px;
+  }
+
+  .col--narrow-text--hero {
+    gap: 12px;
+  }
+
+  .col--narrow-img {
+    flex: 0 0 66.62%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .col--narrow-img picture {
+    display: contents;
+  }
+
+  .col--narrow-img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+  }
+
+  .col--narrow-img--cover img {
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  /* ── Stacked (2-col text top | full image bottom) ───── */
+  .slide--stacked {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1360px;
+    background: #fff;
+  }
+
+  .stacked-top {
+    padding: 52px 52px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .stacked-top__cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 24px;
+  }
+
+  .stacked-top__cols--single {
+    grid-template-columns: 1fr;
+  }
+
+  .stacked-bottom {
+    padding-top: 40px;
+  }
+
+  .stacked-bottom picture {
+    display: block;
+  }
+
+  .stacked-bottom img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ── Stacked-split (2-col text top | 1/3 text + 2/3 img bottom) ── */
+  .slide--stacked-split {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1360px;
+    background: #fff;
+  }
+
+  /* .stacked-top and .stacked-top__cols are shared */
+
+  .stacked-split-bottom {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .stacked-split-bottom__text {
+    flex: 0 0 33.38%;
+    padding: 80px 52px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .stacked-split-bottom__img {
+    flex: 0 0 66.62%;
+  }
+
+  .stacked-split-bottom__img picture {
+    display: block;
+  }
+
+  .stacked-split-bottom__img img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ── Video-in-phone-frame column ────────────────────── */
+  .col--video-phone {
+    flex: 0 0 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .phone-video-wrap {
+    position: relative;
+    width: 300px;
+  }
+
+  .phone-video-wrap video {
+    position: absolute;
+    top: 1.88%;
+    left: 4.4%;
+    width: 91.1%;
+    height: 96.2%;
+    border-radius: 36px;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  /* picture element is transparent to layout */
+  .phone-video-wrap picture {
+    display: contents;
+  }
+
+  .phone-frame-img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: auto;
+    display: block;
+    pointer-events: none;
+  }
+
+  /* ── Mobile ──────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .case-study {
+      padding: 16px 0 0;
+    }
+
+    .slide {
+      flex-direction: column;
+      min-height: unset;
+    }
+
+    .col--text {
+      flex: none;
+      padding: 40px 24px;
+    }
+
+    .slide--reversed {
+      flex-direction: column-reverse;
+    }
+
+    .col--blank {
+      display: none;
+    }
+
+    .col--img {
+      flex: none;
+      position: static;
+      overflow: visible;
+      padding: 0 16px;
+    }
+
+    .col--img picture {
+      display: block;
+    }
+
+    .col--img img {
+      position: static;
+      inset: unset;
+      width: 100%;
+      max-width: 100%;
+      display: block;
+    }
+
+    /* Strip bgColor overrides on mobile — all slides use white */
+    .col--text,
+    .col--img,
+    .col--logo,
+    .col--phone,
+    .slide--narrow,
+    .slide--stacked,
+    .slide--stacked-split {
+      background: #fff !important;
+      color: #000 !important;
+    }
+
+    /* ── Narrow text mobile ── */
+    .slide--narrow {
+      flex-direction: column;
+      min-height: unset;
+    }
+
+    .col--narrow-text {
+      flex: none;
+      padding: 40px 24px;
+    }
+
+    .col--narrow-img {
+      flex: none;
+      position: static;
+      overflow: visible;
+      padding: 0 16px;
+    }
+
+    .col--narrow-img picture {
+      display: block;
+    }
+
+    .col--narrow-img img {
+      position: static;
+      inset: unset;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      max-width: 100%;
+    }
+
+    /* Hero narrow slide: image on top */
+    .slide--narrow:first-child .col--narrow-img {
+      order: -1;
+    }
+
+    /* ── Stacked mobile ── */
+    .stacked-top {
+      padding: 40px 24px 0;
+    }
+
+    .stacked-top__cols {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .stacked-bottom:not(.stacked-bottom--scrollable) {
+      padding: 24px 16px 0;
+    }
+
+    .stacked-bottom--scrollable {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 24px 16px 0;
+    }
+
+    .stacked-bottom--scrollable picture {
+      display: inline-block;
+    }
+
+    .stacked-bottom--scrollable img {
+      width: auto;
+      max-width: none;
+      height: 260px;
+    }
+
+    /* ── Stacked-split mobile ── */
+    .stacked-split-bottom {
+      flex-direction: column;
+      min-height: unset;
+    }
+
+    .stacked-split-bottom__text {
+      flex: none;
+      padding: 40px 24px;
+      justify-content: flex-start;
+    }
+
+    .stacked-split-bottom__img {
+      flex: none;
+      padding: 0 16px;
+    }
+
+    .stacked-split-bottom__img picture {
+      display: block;
+    }
+
+    .stacked-split-bottom__img img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .col--cover img {
+      height: auto;
+      object-fit: unset;
+    }
+
+    .col--contain img {
+      height: auto;
+      object-fit: contain;
+    }
+
+    /* Hero: image on top */
+    .slide:first-child .col--img {
+      order: -1;
+    }
+
+    .col--logo {
+      flex: none;
+      margin: 0 16px;
+      height: 386px;
+    }
+
+    .col--logo img {
+      width: 136px;
+      height: auto;
+    }
+
+    .col--phone {
+      flex: none;
+    }
+
+    .col--phone img {
+      width: 180px;
+    }
+
+    .slide-screenshot-wrap {
+      max-width: 100%;
+      padding: 0 16px;
+      box-sizing: border-box;
+    }
+
+    /* Strip bgColor override for video-phone column on mobile */
+    .col--video-phone {
+      background: #fff !important;
+      padding: 0 16px;
+      flex: none;
+    }
+
+    .phone-video-wrap {
+      width: 231px;
+    }
+
+    .phone-video-wrap video {
+      border-radius: 28px;
+    }
+
+    .s-pretitle {
+      font-size: 20px;
+    }
+
+    .s-tagline {
+      font-size: 17px;
+    }
+
+    .s-heading {
+      font-size: 18px;
+    }
+
+    .s-body {
+      font-size: 15px;
+    }
+
+    .contact {
+      padding: 80px 24px;
+      gap: 24px;
+    }
+
+    .contact__heading {
+      font-size: 32px;
+      white-space: normal;
+    }
+
+    .contact__body {
+      font-size: 18px;
+      line-height: 28px;
+    }
+
+    .contact__email {
+      font-size: 18px;
+      white-space: normal;
+      word-break: break-all;
+    }
+  }
+</style>
