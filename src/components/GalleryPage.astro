@@ -1,0 +1,106 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+
+interface Item {
+  src: string;
+  alt: string;
+}
+
+interface Props {
+  title: string;
+  heading: string;
+  description: string;
+  items?: Item[];
+}
+
+const { title, heading, description, items = [] } = Astro.props;
+---
+
+<Layout title={`${title} — Cecilia Ceballos`} description={description}>
+  <Header variant="illustration" />
+
+  <main class="gallery">
+    <h1 class="gallery__heading">{heading}</h1>
+    <p class="gallery__intro">{description}</p>
+
+    {
+      items.length > 0 ? (
+        <ul class="gallery__grid" role="list">
+          {items.map(({ src, alt }) => (
+            <li>
+              <img src={src} alt={alt} loading="lazy" />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="gallery__empty">Coming soon.</p>
+      )
+    }
+  </main>
+
+  <Footer variant="illustration" />
+</Layout>
+
+<style>
+  .gallery {
+    padding: 96px 120px 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .gallery__heading {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 500;
+    font-size: 48px;
+    letter-spacing: 2.4px;
+    line-height: 1;
+    color: #000;
+  }
+
+  .gallery__intro,
+  .gallery__empty {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 32px;
+    max-width: 640px;
+    color: #000;
+  }
+
+  .gallery__empty {
+    opacity: 0.5;
+  }
+
+  .gallery__grid {
+    list-style: none;
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 32px;
+  }
+
+  .gallery__grid img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .gallery {
+      padding: 64px 24px 96px;
+    }
+
+    .gallery__heading {
+      font-size: 32px;
+    }
+
+    .gallery__intro,
+    .gallery__empty {
+      font-size: 18px;
+      line-height: 28px;
+    }
+  }
+</style>
