@@ -58,8 +58,8 @@ deactivated payment link.
 
 ## Code
 
-- `src/lib/shop.ts`: fetches products and payment links from the Stripe REST
-  API and maps them to shop items.
+- `src/lib/shop.ts`: fetches products and payment links with the official
+  `stripe` Node SDK (and its types) and maps them to shop items.
 - `src/pages/illustration/shop.astro`: the grid; falls back to the "Coming
   soon" gallery page when there are no items.
 - `astro.config.mjs`: declares `STRIPE_SECRET_KEY` via `astro:env`.

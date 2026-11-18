@@ -7,9 +7,10 @@
  *   - orders and shipping in the Stripe dashboard / app.
  *
  * This module turns that into a list of shop items for the page. It needs a
- * restricted, read-only Stripe key in STRIPE_SECRET_KEY (see README). Without
+ * restricted, read-only Stripe key in STRIPE_SECRET_KEY (see docs/shop.md). Without
  * a key it returns an empty list, so the shop shows "Coming soon".
  */
+import Stripe from 'stripe';
 import { STRIPE_SECRET_KEY } from 'astro:env/server';
 
 export type ShopItemKind = 'original' | 'print';
@@ -27,71 +28,7 @@ export interface ShopItem {
   sold: boolean;
 }
 
-// ---- Minimal shapes of the Stripe objects we read ----
-
-interface StripeList<T> {
-  data: T[];
-  has_more: boolean;
-}
-
-interface StripePrice {
-  id: string;
-  unit_amount: number | null;
-  currency: string;
-}
-
-interface StripeProduct {
-  id: string;
-  name: string;
-  description: string | null;
-  images: string[];
-  metadata: Record<string, string>;
-  created: number;
-}
-
-interface StripePaymentLink {
-  id: string;
-  url: string;
-  active: boolean;
-  restrictions: {
-    completed_sessions: { count: number; limit: number };
-  } | null;
-  line_items?: StripeList<{
-    price: (StripePrice & { product: string }) | null;
-  }>;
-}
-
-const API = 'https://api.stripe.com/v1';
-
-async function listAll<T extends { id: string }>(
-  path: string,
-  params: Record<string, string | string[]>,
-  key: string
-): Promise<T[]> {
-  const items: T[] = [];
-  let startingAfter: string | undefined;
-
-  do {
-    const query = new URLSearchParams({ limit: '100' });
-    for (const [name, value] of Object.entries(params)) {
-      for (const v of [value].flat()) query.append(name, v);
-    }
-    if (startingAfter) query.set('starting_after', startingAfter);
-
-    const res = await fetch(`${API}${path}?${query}`, {
-      headers: { Authorization: `Bearer ${key}` },
-    });
-    if (!res.ok) {
-      const body = await res.text();
-      throw new Error(`Stripe ${path} failed (${res.status}): ${body}`);
-    }
-    const page = (await res.json()) as StripeList<T>;
-    items.push(...page.data);
-    startingAfter = page.has_more ? page.data.at(-1)?.id : undefined;
-  } while (startingAfter);
-
-  return items;
-}
+type LinkedPrice = { link: Stripe.PaymentLink; price: Stripe.Price };
 
 // Currencies Stripe stores without cents (MXN and USD are NOT in this list).
 const ZERO_DECIMAL = new Set([
@@ -125,7 +62,10 @@ export function formatPrice(amount: number, currency: string): string {
   return `${number} ${code}`;
 }
 
-function kindOf(product: StripeProduct, link: StripePaymentLink): ShopItemKind {
+function kindOf(
+  product: Stripe.Product,
+  link: Stripe.PaymentLink
+): ShopItemKind {
   const tagged = product.metadata.type?.trim().toLowerCase();
   if (tagged === 'original' || tagged === 'print') return tagged;
   // Untagged: a link limited to a single sale is an original.
@@ -134,7 +74,7 @@ function kindOf(product: StripeProduct, link: StripePaymentLink): ShopItemKind {
     : 'print';
 }
 
-function isAvailable(link: StripePaymentLink): boolean {
+function isAvailable(link: Stripe.PaymentLink): boolean {
   const limit = link.restrictions?.completed_sessions;
   return link.active && (!limit || limit.count < limit.limit);
 }
@@ -150,26 +90,26 @@ export async function getShopItems(): Promise<ShopItem[]> {
 
   // Any failure below fails the build on purpose: Cloudflare then keeps the
   // last good deploy instead of publishing an empty shop.
+  const stripe = new Stripe(key);
   const [products, links] = await Promise.all([
-    listAll<StripeProduct>('/products', { active: 'true' }, key),
-    listAll<StripePaymentLink>(
-      '/payment_links',
-      { 'expand[]': 'data.line_items' },
-      key
-    ),
+    stripe.products
+      .list({ active: true, limit: 100 })
+      .autoPagingToArray({ limit: 10_000 }),
+    stripe.paymentLinks
+      .list({ limit: 100, expand: ['data.line_items'] })
+      .autoPagingToArray({ limit: 10_000 }),
   ]);
 
   // Group payment links by the product they sell (first line item).
-  const linksByProduct = new Map<
-    string,
-    { link: StripePaymentLink; price: StripePrice }[]
-  >();
+  const linksByProduct = new Map<string, LinkedPrice[]>();
   for (const link of links) {
     const price = link.line_items?.data[0]?.price;
     if (!price) continue;
-    const entry = linksByProduct.get(price.product) ?? [];
+    const productId =
+      typeof price.product === 'string' ? price.product : price.product.id;
+    const entry = linksByProduct.get(productId) ?? [];
     entry.push({ link, price });
-    linksByProduct.set(price.product, entry);
+    linksByProduct.set(productId, entry);
   }
 
   const entries: { item: ShopItem; order: number; created: number }[] = [];

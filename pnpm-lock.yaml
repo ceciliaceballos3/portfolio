@@ -20,6 +20,9 @@ importers:
       astro:
         specifier: ^6.4.4
         version: 6.4.4(@types/node@24.13.1)(rollup@4.61.1)(yaml@2.9.0)
+      stripe:
+        specifier: ^23.1.0
+        version: 23.1.0(@types/node@24.13.1)
     devDependencies:
       '@astrojs/check':
         specifier: ^0.9.9
@@ -2124,6 +2127,15 @@ packages:
   strip-ansi@6.0.1:
     resolution: {integrity: sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==}
     engines: {node: '>=8'}
+
+  stripe@23.1.0:
+    resolution: {integrity: sha512-fVUfMSfTPoukfoV//MUKAx2+YxyKmYaYtnAL9VkfnHfaPNQylFdWZMD+zgUFerI8rjbaiER8Vzj2XEUQ2AhAsQ==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      '@types/node': '>=20'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
 
   suf-log@2.5.3:
     resolution: {integrity: sha512-KvC8OPjzdNOe+xQ4XWJV2whQA0aM1kGVczMQ8+dStAO6KfEB140JEVQ9dE76ONZ0/Ylf67ni4tILPJB41U0eow==}
@@ -4876,6 +4888,10 @@ snapshots:
   strip-ansi@6.0.1:
     dependencies:
       ansi-regex: 5.0.1
+
+  stripe@23.1.0(@types/node@24.13.1):
+    optionalDependencies:
+      '@types/node': 24.13.1
 
   suf-log@2.5.3:
     dependencies:
