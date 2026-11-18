@@ -1,9 +1,219 @@
 ---
 import GalleryPage from '../../components/GalleryPage.astro';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getShopItems } from '../../lib/shop';
+
+const items = await getShopItems();
+const description = 'Original drawings, watercolors and prints.';
 ---
 
-<GalleryPage
-  title="Shop"
-  heading="Shop"
-  description="Prints and originals, available soon."
-/>
+{
+  items.length === 0 ? (
+    <GalleryPage
+      title="Shop"
+      heading="Shop"
+      description="Prints and originals, available soon."
+    />
+  ) : (
+    <Layout title="Shop — Cecilia Ceballos" description={description}>
+      <Header variant="illustration" />
+
+      <main class="shop">
+        <h1 class="shop__heading">Shop</h1>
+        <p class="shop__intro">
+          {description} Checkout is handled securely by Stripe.
+        </p>
+
+        <ul class="shop__grid" role="list">
+          {items.map((item) => (
+            <li class:list={['shop-item', { 'shop-item--sold': item.sold }]}>
+              <div class="shop-item__media">
+                {item.image ? (
+                  <img src={item.image} alt={item.title} loading="lazy" />
+                ) : (
+                  <div class="shop-item__placeholder" aria-hidden="true" />
+                )}
+                {item.sold && <span class="shop-item__badge">Sold</span>}
+              </div>
+
+              <div class="shop-item__body">
+                <p class="shop-item__kind">
+                  {item.kind === 'original' ? 'Original' : 'Print'}
+                </p>
+                <h2 class="shop-item__title">{item.title}</h2>
+                {item.description && (
+                  <p class="shop-item__description">{item.description}</p>
+                )}
+                <p class="shop-item__price">{item.price}</p>
+
+                {item.buyUrl ? (
+                  <a class="shop-item__buy" href={item.buyUrl}>
+                    Buy
+                  </a>
+                ) : (
+                  <span class="shop-item__buy shop-item__buy--disabled">
+                    {item.kind === 'original' ? 'Sold' : 'Sold out'}
+                  </span>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </main>
+
+      <Footer variant="illustration" />
+    </Layout>
+  )
+}
+
+<style>
+  .shop {
+    padding: 96px 120px 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .shop__heading {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 500;
+    font-size: 48px;
+    letter-spacing: 2.4px;
+    line-height: 1;
+    color: #000;
+  }
+
+  .shop__intro {
+    font-size: 20px;
+    line-height: 32px;
+    max-width: 640px;
+    color: #000;
+  }
+
+  .shop__grid {
+    list-style: none;
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 56px 32px;
+  }
+
+  .shop-item {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .shop-item__media {
+    position: relative;
+  }
+
+  .shop-item__media img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .shop-item__placeholder {
+    aspect-ratio: 4 / 5;
+    background: #f2f2f2;
+  }
+
+  .shop-item--sold .shop-item__media img {
+    opacity: 0.55;
+  }
+
+  .shop-item__badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    padding: 6px 12px 4px;
+    background: #000;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+  }
+
+  .shop-item__body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .shop-item__kind {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .shop-item__title {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .shop-item__description {
+    font-size: 18px;
+    line-height: 28px;
+    opacity: 0.8;
+  }
+
+  .shop-item__price {
+    font-size: 20px;
+    line-height: 32px;
+  }
+
+  .shop-item__buy {
+    margin-top: 8px;
+    padding: 12px 32px 10px;
+    border: 1px solid #000;
+    background: #000;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+  }
+
+  a.shop-item__buy:hover,
+  a.shop-item__buy:focus-visible {
+    background: #fff;
+    color: #000;
+  }
+
+  .shop-item__buy--disabled {
+    background: transparent;
+    color: #000;
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  @media (max-width: 768px) {
+    .shop {
+      padding: 64px 24px 96px;
+    }
+
+    .shop__heading {
+      font-size: 32px;
+    }
+
+    .shop__intro {
+      font-size: 18px;
+      line-height: 28px;
+    }
+
+    .shop__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
