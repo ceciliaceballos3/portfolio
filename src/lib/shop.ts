@@ -15,7 +15,8 @@ import { STRIPE_SECRET_KEY } from 'astro:env/server';
 
 export type ShopItemKind = 'original' | 'print';
 
-export interface ShopItem {
+/** A sold item has no checkout URL; an item for sale always has one. */
+export type ShopItem = {
   id: string;
   title: string;
   description: string | null;
@@ -23,12 +24,12 @@ export interface ShopItem {
   kind: ShopItemKind;
   /** Formatted price, e.g. "$1,500 MXN". */
   price: string;
-  /** Checkout URL; null when the item can no longer be bought. */
-  buyUrl: string | null;
-  sold: boolean;
-}
+} & ({ sold: false; buyUrl: string } | { sold: true; buyUrl: null });
 
-type LinkedPrice = { link: Stripe.PaymentLink; price: Stripe.Price };
+type LinkedPrice = {
+  link: Stripe.PaymentLink;
+  price: Stripe.Price & { unit_amount: number };
+};
 
 // Currencies Stripe stores without cents (MXN and USD are NOT in this list).
 const ZERO_DECIMAL = new Set([
@@ -50,7 +51,7 @@ const ZERO_DECIMAL = new Set([
   'xpf',
 ]);
 
-export function formatPrice(amount: number, currency: string): string {
+function formatPrice(amount: number, currency: string): string {
   const major = ZERO_DECIMAL.has(currency) ? amount : amount / 100;
   const code = currency.toUpperCase();
   const number = new Intl.NumberFormat('en-US', {
@@ -72,6 +73,14 @@ function kindOf(
   return link.restrictions?.completed_sessions.limit === 1
     ? 'original'
     : 'print';
+}
+
+/** Metadata "order" as a number; missing or not a number sorts last. */
+function sortOrder(value: string | undefined): number {
+  const order = Number(value);
+  return value?.trim() && Number.isFinite(order)
+    ? order
+    : Number.POSITIVE_INFINITY;
 }
 
 function isAvailable(link: Stripe.PaymentLink): boolean {
@@ -104,11 +113,12 @@ export async function getShopItems(): Promise<ShopItem[]> {
   const linksByProduct = new Map<string, LinkedPrice[]>();
   for (const link of links) {
     const price = link.line_items?.data[0]?.price;
-    if (!price) continue;
+    // Customer-chosen amounts have no price to show, so they aren't listed.
+    if (price?.unit_amount == null) continue;
     const productId =
       typeof price.product === 'string' ? price.product : price.product.id;
     const entry = linksByProduct.get(productId) ?? [];
-    entry.push({ link, price });
+    entry.push({ link, price: { ...price, unit_amount: price.unit_amount } });
     linksByProduct.set(productId, entry);
   }
 
@@ -125,18 +135,19 @@ export async function getShopItems(): Promise<ShopItem[]> {
     const { unit_amount, currency } = chosen.price;
     const kind = kindOf(product, chosen.link);
 
+    const base = {
+      id: product.id,
+      title: product.name,
+      description: product.description,
+      image: product.images[0] ?? null,
+      kind,
+      price: formatPrice(unit_amount, currency),
+    };
     entries.push({
-      item: {
-        id: product.id,
-        title: product.name,
-        description: product.description,
-        image: product.images[0] ?? null,
-        kind,
-        price: unit_amount == null ? '' : formatPrice(unit_amount, currency),
-        buyUrl: available ? chosen.link.url : null,
-        sold: !available,
-      },
-      order: Number(product.metadata.order ?? Number.POSITIVE_INFINITY),
+      item: available
+        ? { ...base, sold: false, buyUrl: chosen.link.url }
+        : { ...base, sold: true, buyUrl: null },
+      order: sortOrder(product.metadata.order),
       created: product.created,
     });
   }
