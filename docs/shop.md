@@ -82,6 +82,10 @@ The page is static, so it only changes on a new build. Options, simplest first:
    `payment_link.updated` and `checkout.session.completed`. Any catalog change
    or sale then rebuilds the site. Keep the hook URL private.
 
+   ⚠️ Untested. Workers Builds deploy hooks accept any unauthenticated POST,
+   so Stripe's webhook signature is never checked: anyone with the URL can
+   trigger builds. Try it once by hand before relying on it.
+
 Even before a rebuild, a sold original can't be bought twice: Stripe refuses a
 deactivated payment link.
 
