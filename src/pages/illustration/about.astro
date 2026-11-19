@@ -1,0 +1,72 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<Layout
+  title="About — Drawing and Watercolor — Cecilia Ceballos"
+  description="About Cecilia Ceballos's drawing and watercolor practice."
+>
+  <Header variant="illustration" />
+
+  <main class="about">
+    <h1 class="about__heading">About me</h1>
+    <div class="about__body">
+      <p>
+        I'm Cecilia, an illustrator and watercolor painter based in Mexico City.
+      </p>
+      <p>[Placeholder: write your illustration bio here.]</p>
+    </div>
+  </main>
+
+  <Footer variant="illustration" />
+</Layout>
+
+<style>
+  .about {
+    padding: 96px 120px 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .about__heading {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 500;
+    font-size: 48px;
+    letter-spacing: 2.4px;
+    line-height: 1;
+    color: #000;
+  }
+
+  .about__body {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 640px;
+  }
+
+  .about__body p {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 32px;
+    color: #000;
+  }
+
+  @media (max-width: 768px) {
+    .about {
+      padding: 64px 24px 96px;
+    }
+
+    .about__heading {
+      font-size: 32px;
+    }
+
+    .about__body p {
+      font-size: 18px;
+      line-height: 28px;
+    }
+  }
+</style>

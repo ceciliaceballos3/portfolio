@@ -1,0 +1,49 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<Layout
+  title="Drawing and Watercolor — Cecilia Ceballos"
+  description="Drawings and watercolor paintings by Cecilia Ceballos."
+>
+  <Header variant="illustration" />
+
+  <main class="home">
+    <p class="home__text">
+      Drawings and watercolor paintings: portraits, sketchbook studies, and
+      things I notice along the way.
+    </p>
+  </main>
+
+  <Footer variant="illustration" />
+</Layout>
+
+<style>
+  .home {
+    display: flex;
+    justify-content: center;
+    padding: 96px 120px 200px;
+  }
+
+  .home__text {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1.4;
+    text-align: center;
+    max-width: 640px;
+    color: #000;
+  }
+
+  @media (max-width: 768px) {
+    .home {
+      padding: 64px 24px 120px;
+    }
+
+    .home__text {
+      font-size: 22px;
+    }
+  }
+</style>

@@ -1,17 +1,36 @@
 ---
-const navLinks = [
-  { label: 'work', href: '/work' },
-  { label: 'about', href: '/about' },
-  { label: 'contact', href: '/work#contact' },
-];
+import { shopIsPublic } from '../lib/shop-visibility';
 
-const currentPath = Astro.url.pathname;
+interface Props {
+  variant?: 'design' | 'illustration';
+}
+
+const { variant = 'design' } = Astro.props;
+
+const navSets = {
+  design: [
+    { label: 'work', href: '/work' },
+    { label: 'about', href: '/about' },
+    { label: 'contact', href: '/work#contact' },
+  ],
+  illustration: [
+    { label: 'drawing', href: '/illustration/drawing' },
+    { label: 'watercolor', href: '/illustration/watercolor' },
+    // Hidden while the shop is password-protected (see docs/shop.md).
+    ...(shopIsPublic ? [{ label: 'shop', href: '/illustration/shop' }] : []),
+  ],
+};
+const navLinks = navSets[variant];
+const homeHref = variant === 'illustration' ? '/illustration' : '/';
+
+// Ignore a trailing slash so the active link is highlighted either way
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
 
 <header class="header">
   <!-- CC logo mark (two circles) centered at top -->
   <div class="header__logo-mark">
-    <a href="/" aria-label="Cecilia Ceballos — home">
+    <a href={homeHref} aria-label="Cecilia Ceballos — home">
       <img
         src="/images/cc-logo-header.svg"
         alt="Cecilia Ceballos logo"
@@ -23,7 +42,7 @@ const currentPath = Astro.url.pathname;
 
   <!-- Nav bar: wordmark left · nav links right -->
   <nav class="header__nav" aria-label="Main navigation">
-    <a href="/" class="header__wordmark" aria-label="Cecilia Ceballos — home">
+    <a href={homeHref} class="header__wordmark" aria-label="Cecilia Ceballos — home">
       <img src="/images/wordmark-header.svg" alt="Cecilia Ceballos" />
     </a>
     <ul class="header__links" role="list">
