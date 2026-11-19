@@ -3,16 +3,17 @@ import { defineConfig, envField } from 'astro/config';
 
 import sitemap from '@astrojs/sitemap';
 
-import { SHOP_PATH, shopIsPublic } from './src/lib/shop-visibility';
+import { shopIsPublic } from './src/lib/shop-visibility';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://ceciliaceballos.com',
   integrations: [
     sitemap({
-      // Leave the shop out of the sitemap while it's password-protected.
+      // While the shop is password-protected, the whole illustration section
+      // is unlinked from the main site, so leave it out of the sitemap too.
       filter: (page) =>
-        shopIsPublic || !new URL(page).pathname.startsWith(SHOP_PATH),
+        shopIsPublic || !new URL(page).pathname.startsWith('/illustration'),
     }),
   ],
   env: {

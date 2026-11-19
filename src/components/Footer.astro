@@ -1,4 +1,6 @@
 ---
+import { shopIsPublic } from '../lib/shop-visibility';
+
 interface Props {
   variant?: 'design' | 'illustration';
 }
@@ -42,7 +44,8 @@ const { variant = 'design' } = Astro.props;
             >
               Instagram
             </a>
-            <a href="/illustration">Drawing and Watercolor</a>
+            {/* Hidden until the shop opens (SHOP_PASSWORD_REQUIRED, docs/shop.md). */}
+            {shopIsPublic && <a href="/illustration">Drawing and Watercolor</a>}
           </div>
 
           <div class="footer__col footer__col--center">

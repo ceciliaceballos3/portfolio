@@ -32,14 +32,17 @@ served; the rest of the site never goes through it.
 
 - **`SHOP_PASSWORD_REQUIRED` anything but `false`:** visitors get the
   browser's password prompt (any username; the password is `SHOP_PASSWORD`),
-  and the shop is hidden: no "shop" link in the header, no sitemap entry. If
+  and the shop is hidden: no "shop" link in the illustration header, no
+  "Drawing and Watercolor" link in the main site's footer, and no
+  `/illustration` pages in the sitemap. (Those pages stay reachable by URL;
+  only the shop is password-protected.) If
   `SHOP_PASSWORD` isn't set, nobody gets in.
-- **`SHOP_PASSWORD_REQUIRED = "false"`:** the shop is public, linked from the
-  header and listed in the sitemap.
+- **`SHOP_PASSWORD_REQUIRED = "false"`:** the shop is public, and all those
+  links and sitemap entries are back.
 
 `SHOP_PASSWORD_REQUIRED` lives in `wrangler.toml` under `[vars]`, the single
 source of truth: the Worker reads it at runtime and the build reads it
-(`src/lib/shop-visibility.ts`) to hide the link and sitemap entry. To open or
+(`src/lib/shop-visibility.ts`) to hide the links and sitemap entries. To open or
 close the shop, change it in `wrangler.toml` and push; the build that follows
 updates both the gate and the header. Don't also set it in the Cloudflare
 dashboard: the deploy uses the `wrangler.toml` value.

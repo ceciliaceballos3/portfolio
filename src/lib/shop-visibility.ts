@@ -2,16 +2,15 @@
  * Whether the shop is public, read from SHOP_PASSWORD_REQUIRED in
  * wrangler.toml's [vars]. That one value drives both:
  *   - the Worker's password gate, at runtime (worker/index.ts), and
- *   - the build: while the gate is on, the header hides the "shop" link and
- *     the sitemap leaves the shop out.
+ *   - the build: while the gate is on, the illustration header hides the
+ *     "shop" link, the main site's footer hides its "Drawing and Watercolor"
+ *     link, and the sitemap leaves out the whole illustration section.
  * Only the exact value "false" (any case) opens the shop; anything else,
  * including a missing value, keeps it hidden and locked.
  */
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { parse } from 'smol-toml';
-
-export const SHOP_PATH = '/illustration/shop';
 
 export function isShopOpen(value: unknown): boolean {
   return typeof value === 'string' && value.trim().toLowerCase() === 'false';
