@@ -6,11 +6,11 @@ shipping details live. There is no backend.
 
 ## Settings
 
-| Name                     | Kind                      | Where                                             | Value                        |
-| ------------------------ | ------------------------- | ------------------------------------------------- | ---------------------------- |
-| `STRIPE_SECRET_KEY`      | build secret              | Cloudflare build settings, and `.env` for local   | Restricted key (`rk_live_…`) |
-| `SHOP_PASSWORD_REQUIRED` | Worker variable (runtime) | Cloudflare Worker → Settings → Variables          | `false` opens the shop       |
-| `SHOP_PASSWORD`          | Worker secret (runtime)   | Cloudflare Worker → Settings → Variables (secret) | The password visitors type   |
+| Name                     | Kind                     | Where                                             | Value                        |
+| ------------------------ | ------------------------ | ------------------------------------------------- | ---------------------------- |
+| `STRIPE_SECRET_KEY`      | build secret             | Cloudflare build settings, and `.env` for local   | Restricted key (`rk_live_…`) |
+| `SHOP_PASSWORD_REQUIRED` | build + runtime variable | `wrangler.toml` → `[vars]` (in git)               | `false` opens the shop       |
+| `SHOP_PASSWORD`          | Worker secret (runtime)  | Cloudflare Worker → Settings → Variables (secret) | The password visitors type   |
 
 ### Stripe key
 
@@ -30,18 +30,25 @@ commit the key.
 the site's Worker (`worker/index.ts`), on the server, before the page is
 served; the rest of the site never goes through it.
 
-- **`SHOP_PASSWORD_REQUIRED` unset or anything but `false`:** visitors get the
-  browser's password prompt. Any username works; the password is
-  `SHOP_PASSWORD`. If `SHOP_PASSWORD` isn't set, nobody gets in.
-- **`SHOP_PASSWORD_REQUIRED=false`:** the shop is public.
+- **`SHOP_PASSWORD_REQUIRED` anything but `false`:** visitors get the
+  browser's password prompt (any username; the password is `SHOP_PASSWORD`),
+  and the shop is hidden: no "shop" link in the header, no sitemap entry. If
+  `SHOP_PASSWORD` isn't set, nobody gets in.
+- **`SHOP_PASSWORD_REQUIRED = "false"`:** the shop is public, linked from the
+  header and listed in the sitemap.
 
-Both are runtime settings on the Worker, so changing them takes effect without
-a rebuild. They're deliberately not in `wrangler.toml`, which would overwrite
-the dashboard values on every deploy. The gate is independent of the Stripe
-key.
+`SHOP_PASSWORD_REQUIRED` lives in `wrangler.toml` under `[vars]`, the single
+source of truth: the Worker reads it at runtime and the build reads it
+(`src/lib/shop-visibility.ts`) to hide the link and sitemap entry. To open or
+close the shop, change it in `wrangler.toml` and push; the build that follows
+updates both the gate and the header. Don't also set it in the Cloudflare
+dashboard: the deploy uses the `wrangler.toml` value.
+
+`SHOP_PASSWORD` stays a dashboard **Secret** (Settings → Variables and Secrets)
+and never goes in git. The gate is independent of the Stripe key.
 
 Locally, `pnpm dev` doesn't run the Worker, so the shop is open there. To try
-the gate, put `SHOP_PASSWORD=…` (and optionally `SHOP_PASSWORD_REQUIRED`) in
+the gate, put `SHOP_PASSWORD=…` in
 `.dev.vars` (gitignored), then `pnpm build && pnpm exec wrangler dev`.
 
 ## How Ceci adds an item

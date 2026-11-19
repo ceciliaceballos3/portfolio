@@ -8,3 +8,10 @@ main = "worker/index.ts"
 directory = "./dist"
 binding = "ASSETS"
 run_worker_first = ["/illustration/shop", "/illustration/shop/*", "/illustration/shop.*"]
+
+[vars]
+# "false" opens the shop to everyone; anything else keeps it password-protected
+# (SHOP_PASSWORD, a dashboard secret) and hides it from the header and sitemap.
+# The build reads this too, so changing it means a commit and a rebuild.
+# See docs/shop.md.
+SHOP_PASSWORD_REQUIRED = "true"

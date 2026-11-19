@@ -1,4 +1,6 @@
 ---
+import { shopIsPublic } from '../lib/shop-visibility';
+
 interface Props {
   variant?: 'design' | 'illustration';
 }
@@ -14,7 +16,8 @@ const navSets = {
   illustration: [
     { label: 'drawing', href: '/illustration/drawing' },
     { label: 'watercolor', href: '/illustration/watercolor' },
-    { label: 'shop', href: '/illustration/shop' },
+    // Hidden while the shop is password-protected (see docs/shop.md).
+    ...(shopIsPublic ? [{ label: 'shop', href: '/illustration/shop' }] : []),
   ],
 };
 const navLinks = navSets[variant];
