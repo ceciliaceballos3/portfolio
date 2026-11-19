@@ -1,6 +1,7 @@
 /**
- * The site's Worker: serves the static build from `./dist`, and puts the shop
- * behind a password while SHOP_PASSWORD_REQUIRED is on.
+ * The site's Worker: serves the static build from `./dist`, and puts the
+ * illustration section (shop included) behind a password while
+ * SHOP_PASSWORD_REQUIRED is on.
  *
  * Only paths in `run_worker_first` (wrangler.toml) reach this code; every other
  * request is served straight from the assets. See docs/shop.md.
@@ -8,18 +9,18 @@
 
 interface Env {
   ASSETS: { fetch(request: Request): Promise<Response> };
-  /** "false" opens the shop to everyone; unset or anything else keeps it locked. */
+  /** "false" opens the illustration section and shop to everyone; unset or anything else keeps it locked. */
   SHOP_PASSWORD_REQUIRED?: string;
-  /** The shop password (a Worker secret). Unset while required: nobody gets in. */
+  /** The password (a Worker secret). Unset while required: nobody gets in. */
   SHOP_PASSWORD?: string;
 }
 
-const REALM = 'Shop';
+const REALM = 'Drawing and Watercolor';
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     if (
-      isShopPath(new URL(request.url).pathname) &&
+      isGatedPath(new URL(request.url).pathname) &&
       env.SHOP_PASSWORD_REQUIRED?.trim().toLowerCase() !== 'false' &&
       !(await hasPassword(request, env.SHOP_PASSWORD))
     ) {
@@ -35,11 +36,12 @@ export default {
   },
 };
 
-function isShopPath(pathname: string): boolean {
+/** The whole illustration section, including the shop. */
+function isGatedPath(pathname: string): boolean {
   return (
-    pathname === '/illustration/shop' ||
-    pathname.startsWith('/illustration/shop/') ||
-    pathname.startsWith('/illustration/shop.')
+    pathname === '/illustration' ||
+    pathname.startsWith('/illustration/') ||
+    pathname.startsWith('/illustration.')
   );
 }
 

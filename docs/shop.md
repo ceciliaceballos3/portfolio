@@ -26,7 +26,8 @@ commit the key.
 
 ### Password gate
 
-`/illustration/shop` is behind a password until it's opened. The check runs in
+`/illustration` (the whole Drawing and Watercolor section, shop included) is
+behind a password until it's opened. The check runs in
 the site's Worker (`worker/index.ts`), on the server, before the page is
 served; the rest of the site never goes through it.
 
@@ -34,8 +35,9 @@ served; the rest of the site never goes through it.
   browser's password prompt (any username; the password is `SHOP_PASSWORD`),
   and the shop is hidden: no "shop" link in the illustration header, no
   "Drawing and Watercolor" link in the main site's footer, and no
-  `/illustration` pages in the sitemap. (Those pages stay reachable by URL;
-  only the shop is password-protected.) If
+  `/illustration` pages in the sitemap. The whole `/illustration` section
+  (not only the shop) is behind the password; `/`, `/work`, `/about` and the
+  rest of the design site never go through the Worker. If
   `SHOP_PASSWORD` isn't set, nobody gets in.
 - **`SHOP_PASSWORD_REQUIRED = "false"`:** the shop is public, and all those
   links and sitemap entries are back.
